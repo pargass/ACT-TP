@@ -40,4 +40,60 @@ dessiner la ligne  (complexité : O(H*D))
 
 ```
 
+compléxité : O(N*H*D)
+
+désavantages : on passe des "pixels" à true plusieurs fois, 
+
+## 3
+
+```
+N : nombre d'immeuble
+L : liste de triplet de la forme (g, h, d)
+H : h max
+D : d max
+
+
+
+```
+
+## 4
+
+```
+L1 : liste1 de points compacts
+L2 : liste2 de points compacts
+
+i1 = 0 (indice de L1)
+i2 = 0 (indice de L2)
+
+L = []
+currentH = 0
+D = 0
+
+Tant que i1 < len(L1) ou i2 < len(L2) :
+    Si L1[i1][0] < L2[i2][0] :
+        L.append(L1[i1])
+        currentH = L1[i1][1]
+        D = L1[i1+1][0] 
+        i1 += 1
+    Sinon :
+        si L1[i1][0] > L2[i2][0] :
+            L.append(L2[i2])
+            currentH = L2[i2][1]
+            D = L2[i2+1][0] 
+            i2 += 1
+        Sinon :
+            si L1[i1][1] > L2[i2][1] :
+                L.append(L1[i1])
+                currentH = L1[i1][1]
+                D = L1[i1+1][0]
+                i1 += 1
+            Sinon :
+                L.append(L2[i2])
+                currentH = L2[i2][1]
+                D = L2[i2+1][0]
+                i2 += 1
+
+```
+
+    
 
