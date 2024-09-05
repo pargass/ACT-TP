@@ -21,7 +21,7 @@ pour une liste de couples, (c0, ..., cn) soit un couple cx et cx+ tq x pair alor
 Soit une liste de couples, (c0, ..., cn)Pour passer de l'écriture brute à l'écriture compacte il suffit de supprimer chaque couple de numero pair
 
 
-![](./ligne.svg) à changer !
+![](./ligne.svg)
 
 ## 2
 
