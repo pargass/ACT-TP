@@ -91,7 +91,43 @@ Tant que i1 < len(L1) ou i2 < len(L2) :
                 L.append(L2[i2])
                 currentH = L2[i2][1]
                 D = L2[i2+1][0]
-                i2 += 1
+                i2 += 1ù
+
+
+L1 : liste1 de points compacts
+L2 : liste2 de points compacts
+
+i1 = 0 (indice de L1)
+i2 = 0 (indice de L2)
+h1 = 0 (hauteur de L1)
+h2 = 0 (hauteur de L2)
+
+L = [] (liste de points compacts)
+
+Tant que i1 < len(L1) et i2 < len(L2) :
+    Si L1[i1][0] < L2[i2][0] :
+        d = L1[i1][0]
+        h1 = L1[i1][1]
+        hMax = max(h1, h2)
+        i1 += 1
+    Sinon :
+        si L1[i1][0] > L2[i2][0] :
+            d = L2[i2][0]
+            h2 = L2[i2][1]
+            hMax = max(h1, h2)
+            i2 += 1
+        Sinon :
+            d = L1[i1][0]
+            h1 = L1[i1][1]
+            h2 = L2[i2][1]
+            hMax = max(h1, h2)
+            i1 += 1
+            i2 += 1
+
+    Si L est vide ou hMax != hMax précédent :
+        L.append((d, hMax))
+
+    on ajoute les points restants de L1 ou L2 à L
 
 ```
 
