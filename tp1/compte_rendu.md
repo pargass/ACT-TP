@@ -101,6 +101,7 @@ i1 = 0 (indice de L1)
 i2 = 0 (indice de L2)
 h1 = 0 (hauteur de L1)
 h2 = 0 (hauteur de L2)
+d = 0 (distance)
 
 L = [] (liste de points compacts)
 
@@ -128,6 +129,8 @@ Tant que i1 < len(L1) et i2 < len(L2) :
         L.append((d, hMax))
 
     on ajoute les points restants de L1 ou L2 à L
+
+    on retourne L
 
 ```
 
