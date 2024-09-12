@@ -46,9 +46,18 @@ def svg_file(l, filename):
     with open(filename  + ".svg", "w") as f:
         f.write(to_svg(l))
 
+def roof_line(l):
+    if len(l) == 1:
+        return l
+    else:
+        return merge_roof_line(roof_line(l[:len(l)//2]), roof_line(l[len(l)//2:]))
+    
+
 
 
 if __name__ == "__main__":
     l1 = [(1, 10), (5, 6), (8, 0), (10, 8), (12, 0)]
     l2 = [(2, 12), (7, 0), (9, 4), (11, 2), (14, 0)]
     print(merge_roof_line(l1, l2))
+
+    l = [(3, 13, 9), (1, 11, 5), (19, 18, 22), (3, 6, 7), (16, 3, 25), (12, 7, 16)]
