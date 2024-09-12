@@ -134,5 +134,12 @@ Tant que i1 < len(L1) et i2 < len(L2) :
 
 ```
 
+## 5
+
+```
+L : liste d'immeubles
+
+
+
     
 
