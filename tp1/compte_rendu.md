@@ -54,11 +54,11 @@ H : h max
 D : d max
 
 Pour i=0 à N                               O(N)
-    Li = ajouter_immeuble(Li, L[i])
+    Li = ajouter_immeuble(Li, L[i])         O(N)
 
 
 
-ajouter_immeuble(Li, [g,h,d] ){
+ajouter_immeuble(Li, [g,h,d] ){ 
     rep = []
     test = False
 
@@ -99,6 +99,9 @@ ajouter_immeuble(Li, [g,h,d] ){
 }
 
 
+La fonction ajouter immeuble étant O(n) car dans le pire des cas à au dernier appel de cette fonction la boucle fera  autantd'itérations  qu'il y a d'immeubles, 
+
+cette fonction étant appelé N fois pour inserer tous les immeubles alors le programme est O(n*n), soit O(n²)
 
 
 
