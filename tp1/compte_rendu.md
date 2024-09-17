@@ -47,10 +47,58 @@ désavantages : on passe des "pixels" à true plusieurs fois,
 ## 3
 
 ```
+Li : ligne de toit
 N : nombre d'immeuble
 L : liste de triplet de la forme (g, h, d)
 H : h max
 D : d max
+
+Pour i=0 à N                               O(N)
+    Li = ajouter_immeuble(Li, L[i])
+
+
+
+ajouter_immeuble(Li, [g,h,d] ){
+    rep = []
+    test = False
+
+    Si Li vide
+        alors ajouter (g,h)(d,0) à rep
+    
+    sinon 
+        Pour chaque segment (x1, y1) (x2,y2) dans Li
+            si g > x2 ou d < x1
+                alors ajouter (x1, y1) (x2,y2) à rep
+                test = true
+            sinon
+                si x1 <= g et x2 >= d
+                    si h > y1
+                        alors ajouter (x1, y1) (g,h) (d, y1) (x2, y2) à rep
+                    sinon 
+                        ajouter (x1,y1) (x2,y2) à rep
+                sinon si x1 => g et x2 <= d
+                    si h < y1
+                        ajouter (g, h) (x1, y1) (x2 , h) (d, 0) à rep
+                    sinon 
+                        ajouter (g,h)(d,0) à rep
+                sinon si x1 <= g et x2 <= d
+                    si h > y1
+                        alors ajouter (x1, y1) (g,h) (d, 0) à rep
+                    sinon 
+                        ajouter (x1,y1) (x2,h) (d, 0) à rep
+                sinon si x1 >= g et x2 >= d
+                    si h > y1
+                        alors ajouter (g, h) (d,y1) (x2, y2) à rep
+                    sinon 
+                        ajouter (g,h) (x1,y1) (x2, y2) à rep
+
+    Si true
+        ajouter (g,h)(d,0) à rep
+                    
+    return rep  
+}
+
+
 
 
 
