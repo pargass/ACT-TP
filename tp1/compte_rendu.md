@@ -53,6 +53,7 @@ L : liste de triplet de la forme (g, h, d)
 H : h max
 D : d max
 
+Li = []
 Pour i=0 à N                               O(N)
     Li = ajouter_immeuble(Li, L[i])         O(N)
 
@@ -60,48 +61,86 @@ Pour i=0 à N                               O(N)
 
 ajouter_immeuble(Li, [g,h,d] ){ 
     rep = []
-    test = False
+    test = 0
+    i = 0
 
     Si Li vide
         alors ajouter (g,h)(d,0) à rep
     
     sinon 
         Pour chaque segment (x1, y1) (x2,y2) dans Li
-            si g > x2 ou d < x1
-                alors ajouter (x1, y1) (x2,y2) à rep
-                test = true
+        
+            si g >= x2 ou d =< x1
+                alors si i == 0
+                    alors ajouter (x1, y1) (x2,y2) à rep
+                sinon ajouter (x2,y2) à rep
+                Si test ==  0
+                    test = 1
             sinon
+                test = 2
+
                 si x1 <= g et x2 >= d
                     si h > y1
-                        alors ajouter (x1, y1) (g,h) (d, y1) (x2, y2) à rep
-                    sinon 
-                        ajouter (x1,y1) (x2,y2) à rep
+                        si i == 0
+                            alors ajouter (x1, y1) (g,h) (d, y1) (x2, y2) à rep
+                        sinon
+                            alors ajouter  (g,h) (d, y1) (x2, y2) à rep  
+                    sinon
+                        si i == 0 
+                            ajouter (x1,y1) (x2,y2) à rep
+                        sinon 
+                            œajouter (x2,y2) à rep
+
+
                 sinon si x1 => g et x2 <= d
                     si h < y1
-                        ajouter (g, h) (x1, y1) (x2 , h) (d, 0) à rep
+                        si i == 0 
+                            ajouter (g, h) (x1, y1) (x2 , h) (d, 0) à rep
+                        sinon
+                            retirer dernier element de rep
+                            ajouter (g, h) (x1, y1) (x2 , h) (d, 0) à rep
                     sinon 
-                        ajouter (g,h)(d,0) à rep
+                        si i == 0 
+                            ajouter (g,h)(d,0) à rep
+                        sinon
+                            retirer dernier element de rep
+                            ajouter (g,h)(d,0) à rep
+
+
                 sinon si x1 <= g et x2 <= d
                     si h > y1
-                        alors ajouter (x1, y1) (g,h) (d, 0) à rep
+                        si i == 0 
+                            alors ajouter (x1, y1) (g,h) (d, 0) à rep
+                        sinon
+                            ajouter  (g,h) (d, 0) à rep
                     sinon 
-                        ajouter (x1,y1) (x2,h) (d, 0) à rep
+                        si i == 0 
+                            ajouter (x1,y1) (x2,h) (d, 0) à rep
+                        sinon
+                            ajouter (x2,h) (d, 0) à rep
+
+
                 sinon si x1 >= g et x2 >= d
                     si h > y1
                         alors ajouter (g, h) (d,y1) (x2, y2) à rep
                     sinon 
                         ajouter (g,h) (x1,y1) (x2, y2) à rep
+            i++
 
-    Si true
+    Si test = 1
         ajouter (g,h)(d,0) à rep
+
+    Supprimer doublon cote à cote dans rep ainsi que les couples de format (x ,y1) (x, y2) et garder celui dont la valeur y est la plus grandeO(n)
                     
     return rep  
 }
 
 
-La fonction ajouter immeuble étant O(n) car dans le pire des cas à au dernier appel de cette fonction la boucle fera  autantd'itérations  qu'il y a d'immeubles, 
+La fonction ajouter immeuble étant O(n) car dans le pire des cas à au dernier appel de cette fonction la boucle fera  autant d'itérations  qu'il y a d'immeubles, 
 
-cette fonction étant appelé N fois pour inserer tous les immeubles alors le programme est O(n*n), soit O(n²)
+La suppression de doublon étant O(n) alors la fonction ajouter immeuble est O(n + n) soit 0(2n) -> O(n)
+
+Cette fonction étant appelé N fois pour inserer tous les immeubles alors le programme est O(n*n), soit O(n²)
 
 
 
