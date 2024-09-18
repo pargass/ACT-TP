@@ -36,18 +36,20 @@ def merge_roof_line(l1, l2):
     return merged
 
 
-def roof_line(l):
+def divide_roof_line(l):
     if len(l) == 1:
-        return l
+        return l[0]
     else:       
-        return merge_roof_line(roof_line(l[:len(l)//2]), roof_line(l[len(l)//2:]))
+        return merge_roof_line(divide_roof_line(l[:len(l)//2]), divide_roof_line(l[len(l)//2:]))
     
 def building_to_roof_line(l):
-    roof = []
+    roofs = []
     for i in range(len(l)):
+        roof = []
         roof.append((l[i][0], l[i][1]))
         roof.append((l[i][2], 0))
-    return roof_line(roof)
+        roofs.append(roof)
+    return divide_roof_line(roofs)
     
 
 
@@ -55,7 +57,11 @@ def building_to_roof_line(l):
 if __name__ == "__main__":
     l1 = [(1, 10), (5, 6), (8, 0), (10, 8), (12, 0)]
     l2 = [(2, 12), (7, 0), (9, 4), (11, 2), (14, 0)]
-    print(merge_roof_line(l1, l2))
+    print("test merge_roof_line :")
+    print("expected: [(1, 10), (2, 12), (7, 6), (8, 0), (9, 4), (10, 8), (12, 2), (14, 0)]")
+    print("output:", merge_roof_line(l1, l2), "\n")
 
-    l = [(3, 13, 9), (1, 11, 5), (19, 18, 22), (3, 6, 7), (16, 3, 25), (12, 7, 16)]
-    print(building_to_roof_line(l))
+    l3 = [(98, 41, 127), (154, 16, 176), (195, 89, 231), (201, 22, 215), (167, 34, 191)]
+    print("test building_to_roof_line :")
+    print("expected: [(98, 41), (127, 0), (154, 16), (167, 34), (191, 0), (195, 89), (231, 0)]")
+    print("output:", building_to_roof_line(l3))
