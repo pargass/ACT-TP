@@ -28,7 +28,7 @@ def merge_roof_line(l1, l2):
                 i2 += 1
 
         if len(merged) == 0 or hMax != merged[-1][1]:
-            merged.append([d, hMax])
+            merged.append((d, hMax))
 
     merged += l1[i1:]
     merged += l2[i2:]
@@ -49,8 +49,15 @@ def svg_file(l, filename):
 def roof_line(l):
     if len(l) == 1:
         return l
-    else:
+    else:       
         return merge_roof_line(roof_line(l[:len(l)//2]), roof_line(l[len(l)//2:]))
+    
+def building_to_roof_line(l):
+    roof = []
+    for i in range(len(l)):
+        roof.append((l[i][0], l[i][1]))
+        roof.append((l[i][2], 0))
+    return roof_line(roof)
     
 
 
@@ -61,3 +68,4 @@ if __name__ == "__main__":
     print(merge_roof_line(l1, l2))
 
     l = [(3, 13, 9), (1, 11, 5), (19, 18, 22), (3, 6, 7), (16, 3, 25), (12, 7, 16)]
+    print(building_to_roof_line(l))
