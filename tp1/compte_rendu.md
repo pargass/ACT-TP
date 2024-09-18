@@ -149,85 +149,126 @@ Cette fonction étant appelé N fois pour inserer tous les immeubles alors le pr
 ## 4
 
 ```
-L1 : liste1 de points compacts
-L2 : liste2 de points compacts
+fonction merge_roof_line(l1, l2)
+    i1 = 0
+    i2 = 0
+    h1 = 0
+    h2 = 0
+    d = 0
+    hMax = 0
+    merged = liste vide
 
-i1 = 0 (indice de L1)
-i2 = 0 (indice de L2)
-
-L = []
-currentH = 0
-D = 0
-
-Tant que i1 < len(L1) ou i2 < len(L2) :
-    Si L1[i1][0] < L2[i2][0] :
-        L.append(L1[i1])
-        currentH = L1[i1][1]
-        D = L1[i1+1][0] 
-        i1 += 1
-    Sinon :
-        si L1[i1][0] > L2[i2][0] :
-            L.append(L2[i2])
-            currentH = L2[i2][1]
-            D = L2[i2+1][0] 
-            i2 += 1
-        Sinon :
-            si L1[i1][1] > L2[i2][1] :
-                L.append(L1[i1])
-                currentH = L1[i1][1]
-                D = L1[i1+1][0]
+    tant que i1 est inférieur à longueur de l1 et i2 est inférieur à longueur de l2 :
+        si l1[i1][0] < l2[i2][0] :
+            d = l1[i1][0]
+            h1 = l1[i1][1]
+            hMax = maximum entre h1 et h2
+            i1 += 1
+        sinon :
+            si l1[i1][0] > l2[i2][0] :
+                d = l2[i2][0]
+                h2 = l2[i2][1]
+                hMax = maximum entre h1 et h2
+                i2 += 1
+            sinon :
+                d = l1[i1][0]
+                h1 = l1[i1][1]
+                h2 = l2[i2][1]
+                hMax = maximum entre h1 et h2
                 i1 += 1
-            Sinon :
-                L.append(L2[i2])
-                currentH = L2[i2][1]
-                D = L2[i2+1][0]
-                i2 += 1ù
+                i2 += 1
 
+        si merged est vide ou hMax est différent du dernier élément de merged :
+            ajouter (d, hMax) à merged
 
-L1 : liste1 de points compacts
-L2 : liste2 de points compacts
+    ajouter le reste de l1[i1:] à merged
+    ajouter le reste de l2[i2:] à merged
 
-i1 = 0 (indice de L1)
-i2 = 0 (indice de L2)
-h1 = 0 (hauteur de L1)
-h2 = 0 (hauteur de L2)
-d = 0 (distance)
+    retourner merged
+```
 
-L = [] (liste de points compacts)
+voici le code en python : 
 
-Tant que i1 < len(L1) et i2 < len(L2) :
-    Si L1[i1][0] < L2[i2][0] :
-        d = L1[i1][0]
-        h1 = L1[i1][1]
-        hMax = max(h1, h2)
-        i1 += 1
-    Sinon :
-        si L1[i1][0] > L2[i2][0] :
-            d = L2[i2][0]
-            h2 = L2[i2][1]
-            hMax = max(h1, h2)
-            i2 += 1
-        Sinon :
-            d = L1[i1][0]
-            h1 = L1[i1][1]
-            h2 = L2[i2][1]
+```python
+def merge_roof_line(l1, l2):
+    i1 = 0
+    i2 = 0
+    h1 = 0
+    h2 = 0
+    d = 0
+    hMax = 0
+    merged = []
+
+    while i1 < len(l1) and i2 < len(l2):
+        if l1[i1][0] < l2[i2][0]:
+            d = l1[i1][0]
+            h1 = l1[i1][1]
             hMax = max(h1, h2)
             i1 += 1
-            i2 += 1
+        else:
+            if l1[i1][0] > l2[i2][0]:
+                d = l2[i2][0]
+                h2 = l2[i2][1]
+                hMax = max(h1, h2)
+                i2 += 1
+            else:
+                d = l1[i1][0]
+                h1 = l1[i1][1]
+                h2 = l2[i2][1]
+                hMax = max(h1, h2)
+                i1 += 1
+                i2 += 1
 
-    Si L est vide ou hMax != hMax précédent :
-        L.append((d, hMax))
+        if len(merged) == 0 or hMax != merged[-1][1]:
+            merged.append((d, hMax))
 
-    on ajoute les points restants de L1 ou L2 à L
+    merged += l1[i1:]
+    merged += l2[i2:]
 
-    on retourne L
-
+    return merged
 ```
 
 ## 5
 
 ```
-L : liste d'immeubles
+fonction divide_roof_line(liste l)
+    si la longueur de l est égale à 1 :
+        retourner l[0]
+    sinon :
+        partie_gauche = divide_roof_line(l[:longueur(l)//2])
+        partie_droite = divide_roof_line(l[longueur(l)//2:])
+        retourner merge_roof_line(partie_gauche, partie_droite)
+
+fonction building_to_roof_line(liste l)
+    roofs = liste vide
+
+    pour i de 0 à longueur(l) - 1 :
+        roof = liste vide
+        ajouter (l[i][0], l[i][1]) à roof
+        ajouter (l[i][2], 0) à roof
+        ajouter roof à roofs
+
+    retourner divide_roof_line(roofs)
+```
+
+voici le code en python : 
+
+```python
+def divide_roof_line(l):
+    if len(l) == 1:
+        return l[0]
+    else:       
+        return merge_roof_line(divide_roof_line(l[:len(l)//2]), divide_roof_line(l[len(l)//2:]))
+    
+def building_to_roof_line(l):
+    roofs = []
+    for i in range(len(l)):
+        roof = []
+        roof.append((l[i][0], l[i][1]))
+        roof.append((l[i][2], 0))
+        roofs.append(roof)
+    return divide_roof_line(roofs)
+```
 
 
 
