@@ -6,19 +6,33 @@ Gaspar Henniaux - Marwane Ouaret
 
 ### 1.1 
 
-- On a une ligne oblique quand on passe du point (2, 5) au pont (4, 4) ce n'est donc pas une ligne de toit.
+— (2, 0)(2, 5)(4, 4)(4, 7)(5, 7)(5, 0)
+![](./svg/test0.svg)
+- On a une ligne oblique quand on passe du point (2, 5) au point (4, 4) ce n'est donc pas une ligne de toit.
+
+— (2, 0)(1, 4)(4, 4)(4, 7)(5, 7)(5, 0)
+![](./svg/test1.svg)
 - De même entre les points (2, 0) et (1, 4).
-- Pour la troisième polyligne on a une ligne de toit car tous les traits son verticaux ou horizontaux.
-- Les couples (6, 7) et (5, 0) forment un traits oblique.
-- Pour la cinquième polyligne on a pas de ligne de toi car tous les traits sont verticaux ou horizontaux mais on note tout de même qu'il y a un pic entre le points (4, 8) et(4, 7), il n'y a pas de "plafond".
+
+— (2, 0)(2, 5)(4, 5)(4, 7)(5, 7)(5, 0)
+![](./svg/test2.svg)
+- Pour la troisième polyligne on a une ligne de toit car tous les traits sont verticaux ou horizontaux.
+
+— (2, 0)(2, 5)(4, 5)(4, 7)(5, 7)(6, 7)(5, 0)
+![](./svg/test3.svg)
+- Les couples (6, 7) et (5, 0) forment un trait oblique.
+
+— (2, 0)(2, 5)(4, 5)(4, 8)(4, 7)(5, 7)(5, 0)
+![](./svg/test4.svg)
+- Pour la cinquième polyligne on n'a pas de ligne de toit car tous les traits sont verticaux ou horizontaux mais on note tout de même qu'il y a un pic entre les points (4, 8) et (4, 7), il n'y a pas de "plafond".
 
 ### 1.2
 
-pour une liste de couples, (c0, ..., cn) soit un couple cx et cx+ tq x pair alors ces 2 couples sont de formats (A , B) (A , C) (inversement si impair).
+pour une liste de couples, (C0, ..., Cn) soit un couple Cx et Cx+1 tel que x pair alors ces 2 couples sont de formats (A , B) (A , C) (inversement si impair (A, B) (C, B)).
 
 ### 1.3
 
-Soit une liste de couples, (c0, ..., cn)Pour passer de l'écriture brute à l'écriture compacte il suffit de supprimer chaque couple de numero pair
+Soit une liste de couples, (c0, c1, c2 ..., cn) Pour passer de l'écriture brute à l'écriture compacte il suffit de supprimer chaque couple de numero impair de la liste. (c0, c2, c4, ..., cn)
 
 
 ![](./ligne.svg)
@@ -32,17 +46,19 @@ H : h max
 D : d max
 
 initialiser la matrice M selon H et D à false
-pour i allant de 0 à N :
-    pour j allant de 0 à L[i][1]:
-         pour k allant de L[i][0] à L[i][2]:
+pour i allant de 0 à N : (complexité : O(n))
+    pour j allant de 0 à L[i][1]: (complexité : O(h))
+         pour k allant de L[i][0] à L[i][2]: (complexité : O(d))
             M[j, k] -> True
 dessiner la ligne  (complexité : O(H*D))
 
 ```
 
-compléxité : O(N*H*D)
+### compléxité : 
 
-désavantages : on passe des "pixels" à true plusieurs fois, 
+La complexité de cette fonction est en O(n * h * d) avec n le nombre d'immeubles, h la hauteur maximale et d la distance maximale. En effet, pour chaque immeuble on parcourt h lignes et d colonnes pour mettre à True les cases de la matrice M correspondant à l'immeuble.
+
+désavantages : On ne garde pas en mémoire les "pixels" déjà passés à true. On peut donc avoir des doublons dans la matrice M. 
 
 ## 3
 
@@ -135,6 +151,9 @@ ajouter_immeuble(Li, [g,h,d] ){
     return rep  
 }
 
+```
+
+### complexité :
 
 La fonction ajouter immeuble étant O(n) car dans le pire des cas à au dernier appel de cette fonction la boucle fera  autant d'itérations  qu'il y a d'immeubles, 
 
@@ -143,8 +162,6 @@ La suppression de doublon étant O(n) alors la fonction ajouter immeuble est O(n
 Cette fonction étant appelé N fois pour inserer tous les immeubles alors le programme est O(n*n), soit O(n²)
 
 
-
-```
 
 ## 4
 
@@ -228,6 +245,11 @@ def merge_roof_line(l1, l2):
     return merged
 ```
 
+### complexité :
+
+Ici la boucle principale est une boucle tant que qui s'arrete lorsque i1 ou i2 est supérieur à la longueur de l1 ou l2. Or à chaque itération de cette boucle on incrémente i1 ou i2 ou les deux de 1. Donc la boucle s'execute au maximum n fois (n étant la longueur de l1 ou l2). Donc la complexité de cette fonction est O(n) avec n la longueur de l1 ou l2.
+
+
 ## 5
 
 ```
@@ -269,6 +291,14 @@ def building_to_roof_line(l):
         roofs.append(roof)
     return divide_roof_line(roofs)
 ```
+
+### complexité :
+
+La fonction `building_to_roof_line` est en O(n) avec n la longueur de la liste l. En effet, la boucle for s'execute n fois (n étant la longueur de l). Cette fonction ne s'éxecute qu'une seule fois.
+
+Les appels récursifs de la fonction `divide_roof_line` s'arrêtent lorsque la longueur de la liste passée en paramètre est égale à 1. Or à chaque appel récursif, la liste passée en paramètre est divisée par 2. Donc le nombre d'appels récursifs est en O(log(n)) avec n la longueur de la liste l.
+
+Donc la complexité de la fonction `building_to_roof_line` est en O(n + n*log(n)) = O(n*log(n)) avec n la longueur de la liste l.
 
 
 
