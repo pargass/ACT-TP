@@ -2,13 +2,16 @@
 
 Gaspar Henniaux - Marwane Ouaret
 
-## 1 
+Lien Github : https://github.com/pargass/ACT-TP/tree/main/tp1
 
+Pour tester par soit même, executer le fichier : verif.py
+
+## 1 
 ### 1.1 
 
 — (2, 0)(2, 5)(4, 4)(4, 7)(5, 7)(5, 0)
 ![](./svg/test0.svg)
-- On a une ligne oblique quand on passe du point (2, 5) au point (4, 4) ce n'est donc pas une ligne de toit.
+- On a une ligne oblique quand on passe du point (2, 5) au point (4, 4), ce n'est donc pas une ligne de toit.
 
 — (2, 0)(1, 4)(4, 4)(4, 7)(5, 7)(5, 0)
 ![](./svg/test1.svg)
@@ -16,7 +19,7 @@ Gaspar Henniaux - Marwane Ouaret
 
 — (2, 0)(2, 5)(4, 5)(4, 7)(5, 7)(5, 0)
 ![](./svg/test2.svg)
-- Pour la troisième polyligne on a une ligne de toit car tous les traits sont verticaux ou horizontaux.
+- Pour la troisième polyligne, on a une ligne de toit car tous les traits sont verticaux ou horizontaux.
 
 — (2, 0)(2, 5)(4, 5)(4, 7)(5, 7)(6, 7)(5, 0)
 ![](./svg/test3.svg)
@@ -28,12 +31,17 @@ Gaspar Henniaux - Marwane Ouaret
 
 ### 1.2
 
-pour une liste de couples, (C0, ..., Cn) soit un couple Cx et Cx+1 tel que x pair alors ces 2 couples sont de formats (A , B) (A , C) (inversement si impair (A, B) (C, B)).
+Pour une liste de couples, (C0, ..., Cn) soit un couple Cx et Cx+1 tel que x pair alors ces 2 couples sont de formats (A , B) (A , C) (inversement si impair (A, B) (C, B)).
 
 ### 1.3
 
-Soit une liste de couples, (c0, c1, c2 ..., cn) Pour passer de l'écriture brute à l'écriture compacte il suffit de supprimer chaque couple de numero impair de la liste. (c0, c2, c4, ..., cn)
+Pour passer du format brut au format compact :
 
+Soit une liste de couples (c0, c1, c2 ..., cn) Pour passer de l'écriture brute à l'écriture compacte il suffit de supprimer chaque couple de numero impair de la liste. (c0, c2, c4, ..., cn)
+
+Pour passer du format compact au format long :
+
+Soit une liste de couples (c0, c1, c2 ..., cn) où un couple est de format (a,b), entre chaques couples, il faut inserer un nouvel élément tel que (cx+1[b], cx[a]) et inserer au début de la liste (c0, 0).
 
 ![](./ligne.svg)
 
@@ -45,10 +53,10 @@ L : liste de triplet de la forme (g, h, d)
 H : h max
 D : d max
 
-initialiser la matrice M selon H et D à false
-pour i allant de 0 à N : (complexité : O(n))
-    pour j allant de 0 à L[i][1]: (complexité : O(h))
-         pour k allant de L[i][0] à L[i][2]: (complexité : O(d))
+initialiser la matrice M selon H et D à false O(H*D)
+pour i allant de 0 à N : (complexité : O(N))
+    pour j allant de 0 à L[i][1]: (complexité : O(H))
+         pour k allant de L[i][0] à L[i][2]: (complexité : O(D))
             M[j, k] -> True
 dessiner la ligne  (complexité : O(H*D))
 
@@ -56,7 +64,7 @@ dessiner la ligne  (complexité : O(H*D))
 
 ### compléxité : 
 
-La complexité de cette fonction est en O(n * h * d) avec n le nombre d'immeubles, h la hauteur maximale et d la distance maximale. En effet, pour chaque immeuble on parcourt h lignes et d colonnes pour mettre à True les cases de la matrice M correspondant à l'immeuble.
+La complexité de cette fonction est en O(N * H * D) avec N le nombre d'immeubles, H la hauteur maximale et D la distance maximale. En effet, pour chaque immeuble on parcourt h lignes et d colonnes pour mettre à True les cases de la matrice M correspondant à l'immeuble.
 
 désavantages : On ne garde pas en mémoire les "pixels" déjà passés à true. On peut donc avoir des doublons dans la matrice M. 
 
@@ -66,12 +74,11 @@ désavantages : On ne garde pas en mémoire les "pixels" déjà passés à true.
 Li : ligne de toit
 N : nombre d'immeuble
 L : liste de triplet de la forme (g, h, d)
-H : h max
-D : d max
+
 
 Li = []
 Pour i=0 à N                               O(N)
-    Li = ajouter_immeuble(Li, L[i])         O(N)
+    Li = ajouter_immeuble(Li, L[i])         O(Taille Li) -> O(N)
 
 
 
@@ -85,16 +92,15 @@ ajouter_immeuble(Li, [g,h,d] ){
     
     sinon 
         Pour chaque segment (x1, y1) (x2,y2) dans Li
-        
             si g >= x2 ou d =< x1
                 alors si i == 0
                     alors ajouter (x1, y1) (x2,y2) à rep
                 sinon ajouter (x2,y2) à rep
                 Si test ==  0
                     test = 1
+
             sinon
                 test = 2
-
                 si x1 <= g et x2 >= d
                     si h > y1
                         si i == 0
@@ -106,7 +112,6 @@ ajouter_immeuble(Li, [g,h,d] ){
                             ajouter (x1,y1) (x2,y2) à rep
                         sinon 
                             œajouter (x2,y2) à rep
-
 
                 sinon si x1 => g et x2 <= d
                     si h < y1
@@ -122,7 +127,6 @@ ajouter_immeuble(Li, [g,h,d] ){
                             retirer dernier element de rep
                             ajouter (g,h)(d,0) à rep
 
-
                 sinon si x1 <= g et x2 <= d
                     si h > y1
                         si i == 0 
@@ -135,7 +139,6 @@ ajouter_immeuble(Li, [g,h,d] ){
                         sinon
                             ajouter (x2,h) (d, 0) à rep
 
-
                 sinon si x1 >= g et x2 >= d
                     si h > y1
                         alors ajouter (g, h) (d,y1) (x2, y2) à rep
@@ -146,7 +149,7 @@ ajouter_immeuble(Li, [g,h,d] ){
     Si test = 1
         ajouter (g,h)(d,0) à rep
 
-    Supprimer doublon cote à cote dans rep ainsi que les couples de format (x ,y1) (x, y2) et garder celui dont la valeur y est la plus grandeO(n)
+    Supprimer les éléments tel qu'un segement (x,y1) (x, y2) alors supprimer l'élément dont le y est le plus petit (si y1 = y2 supprimer uniquement 1 des 2)    O(n)
                     
     return rep  
 }
@@ -155,12 +158,13 @@ ajouter_immeuble(Li, [g,h,d] ){
 
 ### complexité :
 
-La fonction ajouter immeuble étant O(n) car dans le pire des cas à au dernier appel de cette fonction la boucle fera  autant d'itérations  qu'il y a d'immeubles, 
+La boucle dans `ajouter_immeuble` est O(N) car dans le pire des cas, au dernier appel de la fonction `ajouter_immeuble`, la taille de Li sera de N-1.
 
-La suppression de doublon étant O(n) alors la fonction ajouter immeuble est O(n + n) soit 0(2n) -> O(n)
+La suppression de doublon est O(N) car on parcourt la liste rep élément par élément.
 
-Cette fonction étant appelé N fois pour inserer tous les immeubles alors le programme est O(n*n), soit O(n²)
+Donc la fonction `ajouter_immeuble` est O(N + N) -> O(2N) -> O(N).
 
+Cette fonction étant appelée N fois pour insérer tous les immeubles, alors le programme est O(N*N), soit O(N²).
 
 
 ## 4
@@ -296,11 +300,8 @@ def building_to_roof_line(l):
 
 La fonction `building_to_roof_line` est en O(n) avec n la longueur de la liste l. En effet, la boucle for s'execute n fois (n étant la longueur de l). Cette fonction ne s'éxecute qu'une seule fois.
 
-Les appels récursifs de la fonction `divide_roof_line` s'arrêtent lorsque la longueur de la liste passée en paramètre est égale à 1. Or à chaque appel récursif, la liste passée en paramètre est divisée par 2. Donc le nombre d'appels récursifs est en O(log(n)) avec n la longueur de la liste l.
+Les appels récursifs de la fonction `divide_roof_line` s'arrêtent lorsque la longueur de la liste passée en paramètre est égale à 1. Or à chaque appel récursif, la liste passée en paramètre est divisée par 2. Donc le nombre d'appels récursifs est en O(log₂(n)) avec n la longueur de la liste l.
 
-Donc la complexité de la fonction `building_to_roof_line` est en O(n + n*log(n)) = O(n*log(n)) avec n la longueur de la liste l.
+La fonction `merge_roof_line`, en O(n) comme expliqué prédemment, combine les résultats retournés par la fonction `divide_roof_line` (log₂(n)). La fonction `divide_roof_line` est donc finalement de complexité O(n*log₂(n))
 
-
-
-    
-
+Donc la complexité de la fonction `building_to_roof_line` est en O(n + n*log₂(n)) = O(n*log₂(n)) avec n la longueur de la liste l soit le nombre d'immeuble.
