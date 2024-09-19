@@ -1,10 +1,10 @@
 import os
 
 def to_svg(points):
-    svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" height=\"200\" viewBox=\"-10 -150 200 150\"><polyline points=\""
+    svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" height=\"150\" viewBox=\"-10 -150 200 150\"><polyline points=\""
     for point in points:
         svg += f"{point[0]},{point[1]} "
-    svg += "\"\nstroke=\"blue\" stroke-width=\"1\" fill=\"none\" transform=\"scale(5,-5)\"/></svg>"
+    svg += "\"\nstroke=\"blue\" stroke-width=\"0.5\" fill=\"none\" transform=\"scale(10,-10)\"/></svg>"
     return svg
 
 def svg_file(points, filename):
