@@ -40,7 +40,7 @@ def position_value(m, n , i, j):
             negative_values = [v for v in tab_values if v <= 0]
             return abs(max(negative_values)) + 1
         else :
-            return -max(tab_values)
+            return -max(tab_values) -1
 
 d_memo = {}
 
@@ -61,7 +61,7 @@ def d_position_value(m, n, i, j):
         negative_values = [v for v in tab_values if v <= 0]
         result = abs(max(negative_values)) + 1
     else:
-        result = -max(tab_values)
+        result = -max(tab_values) - 1
 
     d_memo[state] = result
     return result
@@ -73,6 +73,10 @@ def normalize_state(m, n, i, j):
     if m < n:
         m, n = n, m
         i, j = j, i
+    if i > m // 2:
+        i = m - i
+    if j > n // 2:
+        j = n - j
     return (m, n, i, j)
 
 def acc_position_value(m, n, i, j):
@@ -93,7 +97,7 @@ def acc_position_value(m, n, i, j):
         negative_values = [v for v in tab_values if v <= 0]
         result = abs(max(negative_values)) + 1
     else:
-        result = -max(tab_values)
+        result = -max(tab_values) - 1
 
     acc_memo[state] = result
     return result
@@ -112,7 +116,7 @@ def grid_representation(m, n, i, j):
 def play(m, n, i, j, joueur):
     if joueur == 1: #changer joueur
         joueur = 2
-    else:    
+    else:
         joueur = 1
 
     if m == 1 and n == 1: #condition d'arret
@@ -182,38 +186,37 @@ if __name__ == "__main__":
 
     @timeit
     def test_position_value():
-        return position_value(3, 3, 1, 1)
+        return position_value(3, 2, 2, 0)
 
     @timeit
     def test_d_position_value():
         return d_position_value(6, 6, 3, 3)
 
-    @timeit
-    def test_acc_position_value():
-        return acc_position_value(100, 100, 50, 50)
+    # @timeit
+    # def test_acc_position_value():
+    #     return acc_position_value(100, 100, 50, 50)
 
     print(test_position_value())
     print(test_d_position_value())
-    print(test_acc_position_value())
+    # print(test_acc_position_value())
 
-    if len(sys.argv) != 5:
-       print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
-       sys.exit(1)
+    # if len(sys.argv) != 5:
+    #    print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
+    #    sys.exit(1)
 
-    m = int(sys.argv[1])
-    n = int(sys.argv[2])
-    i = int(sys.argv[3])
-    j = int(sys.argv[4])
+    # m = int(sys.argv[1])
+    # n = int(sys.argv[2])
+    # i = int(sys.argv[3])
+    # j = int(sys.argv[4])
 
-    play(m, n, i, j, 2)
+    # play(m, n, i, j, 2)
 
-    if len(sys.argv) != 5:
-       print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
-       sys.exit(1)
+    # print(normalize_state(6,4,1,0))
+    # print(normalize_state(6,4,1,3))
+    # print(normalize_state(6,4,4,0))
+    # print(normalize_state(6,4,4,3))
 
-    m = int(sys.argv[1])
-    n = int(sys.argv[2])
-    i = int(sys.argv[3])
-    j = int(sys.argv[4])
-
-    play(m, n, i, j, 2)
+    print(normalize_state(4,6,0,1))
+    print(normalize_state(4,6,3,1))
+    print(normalize_state(4,6,0,4))
+    print(normalize_state(4,6,3,4))

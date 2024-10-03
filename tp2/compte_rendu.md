@@ -53,6 +53,17 @@ la complexité de cet algorithme est exponentielle car dans la boucle principale
 
 ## Question 8
 
-Nous avons décidés de choisir un dictionnaire pour stocké les valeures déjà caculées.
+Nous avons décidés de choisir un dictionnaire pour stocké les valeures déjà caculées. On met en clé les configurations sous forme de tuple et en valeur la valeur de la configuration.
 
 ## Question 9
+
+## Question 12
+
+![alt text](images/image.png)
+
+toutes ces configurations ont la même valeur car il pour une configuration donnée, la valeur reste la même si on fait une rotation de 90°, 180° ou 270° ou si on fait un retournement horizontal ou vertical
+
+## Question 13
+
+
+
