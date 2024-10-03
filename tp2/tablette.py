@@ -73,10 +73,10 @@ def normalize_state(m, n, i, j):
     if m < n:
         m, n = n, m
         i, j = j, i
-    if i > m // 2:
-        i = m - i
-    if j > n // 2:
-        j = n - j
+    if i > m / 2:
+        i = m - i -1
+    if j > n / 2:
+        j = n - j -1
     return (m, n, i, j)
 
 def acc_position_value(m, n, i, j):
@@ -211,10 +211,10 @@ if __name__ == "__main__":
 
     # play(m, n, i, j, 2)
 
-    # print(normalize_state(6,4,1,0))
-    # print(normalize_state(6,4,1,3))
-    # print(normalize_state(6,4,4,0))
-    # print(normalize_state(6,4,4,3))
+    print(normalize_state(6,4,1,0))
+    print(normalize_state(6,4,1,3))
+    print(normalize_state(6,4,4,0))
+    print(normalize_state(6,4,4,3))
 
     print(normalize_state(4,6,0,1))
     print(normalize_state(4,6,3,1))
