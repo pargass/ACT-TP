@@ -5,6 +5,15 @@ import time
 import sys
 
 
+def timeit(f):
+    def timed(*args, **kw):
+        t1 = time.time()
+        result = f(*args, **kw)
+        t2 = time.time()
+        print(f"Temps d'execution de {f.__name__} : {t2 - t1}")
+        return result
+    return timed
+
 def possible_configurations(m, n , i, j):
     # il y a n - 1 + m - 1 = n + m - 2 configurations possibles
     configurations = []
@@ -171,41 +180,32 @@ if __name__ == "__main__":
     # print(possible_configurations(5, 5, 2,4))
     # print(position_value(3, 2, 2, 0))
 
-    # t1 = time.time()
-    # print(position_value(10, 7, 7, 3))
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
+    @timeit
+    def test_position_value():
+        return position_value(3, 3, 1, 1)
 
-    # t1 = time.time()
-    # print(position_value(10, 7, 5, 3))
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
-    # t1 = time.time()
+    @timeit
+    def test_d_position_value():
+        return d_position_value(6, 6, 3, 3)
 
-    # t1 = time.time()
-    # print(position_value(6, 6, 3, 3))
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
+    @timeit
+    def test_acc_position_value():
+        return acc_position_value(100, 100, 50, 50)
 
-    # t1 = time.time()
-    # print(d_position_value(6, 6, 3, 3))
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
+    print(test_position_value())
+    print(test_d_position_value())
+    print(test_acc_position_value())
 
-    # t1 = time.time()
-    # print(acc_position_value(6, 6, 3, 3))
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
+    if len(sys.argv) != 5:
+       print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
+       sys.exit(1)
 
-    # t1 = time.time()
-    # print(acc_position_value(100, 100, 50, 50)) #-99
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
+    m = int(sys.argv[1])
+    n = int(sys.argv[2])
+    i = int(sys.argv[3])
+    j = int(sys.argv[4])
 
-    # t1 = time.time()
-    # print(acc_position_value(100, 100, 48, 52)) #96
-    # t2 = time.time()
-    # print("temps d'execution : ", t2 - t1)
+    play(m, n, i, j, 2)
 
     if len(sys.argv) != 5:
        print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
