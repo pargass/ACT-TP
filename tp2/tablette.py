@@ -2,6 +2,7 @@
 # n : nombre de lignes
 
 import time
+import sys
 
 
 def possible_configurations(m, n , i, j):
@@ -91,11 +92,79 @@ def acc_position_value(m, n, i, j):
 def grid_representation(m, n, i, j):
     for k in range(n):
         for l in range(m):
-            if k == i and l == j:
-                print("X ", end="")
+            if l == i and k == j:
+                print("☠️ ", end="")
             else:
                 print("■ ", end="")
         print()
+    print()
+
+
+def play(m, n, i, j, joueur):
+    if joueur == 1: #changer joueur
+        joueur = 2
+    else:    
+        joueur = 1
+
+    if m == 1 and n == 1: #condition d'arret
+        grid_representation(m, n, i, j)
+        if joueur == 1:
+            print("Fin du jeu, vous avez gagné ! 🎉")
+        else:
+            print("Fin du jeu, vous avez perdu. 😥")
+        return
+    
+
+    grid_representation(m, n, i, j)
+    if joueur == 1:
+        print("C'est à l'ordinateur de jouer")
+    else:
+        print("C'est à vous de jouer")
+
+    
+    if joueur == 1:
+        configurations = possible_configurations(m, n, i, j)
+        choices = []
+        for config in configurations:
+            choices.append(acc_position_value(*config))
+
+        print("Les choix possibles sont : ", choices)
+        if min(choices) <= 0:
+            index = choices.index(min(choices))
+            for i in range(len(choices)):
+                if choices[i] <= 0 and choices[i] > choices[index]:
+                    index = i
+        else:
+            index = choices.index(max(choices))
+        play(*configurations[index], joueur)
+    else:
+        test = True
+        while test:
+            if not (m == 1 or n == 1):
+                direction = input("Choisissez une coupe horizontal ou vertical (h / v): ")
+            elif m == 1:
+                direction = "h"
+            else:
+                direction = "v"
+
+            if direction == "h":
+                n2 = int(input(f"A quelles endroit souhaitez-vous coupez (entre 1 et {n-1}): "))
+                if n2 <= j: 
+                    print("L'évaluation de votre coup est ",acc_position_value(m, n-n2, i, j-n2))
+                    play(m, n-n2, i, j-n2, joueur)
+                else:
+                    print("L'évaluation de votre coup est ",acc_position_value(m, n2, i, j))
+                    play(m, n2, i, j, joueur)
+                test = False
+            if direction == "v":
+                m2 = int(input(f"A quelles endroit souhaitez-vous coupez (entre 1 et {m-1}): "))
+                if m2 <= i: 
+                    print("L'évaluation de votre coup est ",acc_position_value(m-m2, n, i-m2, j))
+                    play(m-m2, n, i-m2, j, joueur)
+                else:
+                    print("L'évaluation de votre coup est ",acc_position_value(m2, n, i, j))
+                    play(m2, n, i, j, joueur)
+                test = False
 
 
 if __name__ == "__main__":
@@ -129,14 +198,22 @@ if __name__ == "__main__":
     # print("temps d'execution : ", t2 - t1)
 
     # t1 = time.time()
-    # print(acc_position_value(100, 100, 50, 50))
+    # print(acc_position_value(100, 100, 50, 50)) #-99
     # t2 = time.time()
     # print("temps d'execution : ", t2 - t1)
 
     # t1 = time.time()
-    # print(acc_position_value(100, 100, 48, 52))
+    # print(acc_position_value(100, 100, 48, 52)) #96
     # t2 = time.time()
     # print("temps d'execution : ", t2 - t1)
 
-    grid_representation(20, 20, 10, 10)
+    if len(sys.argv) != 5:
+       print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
+       sys.exit(1)
 
+    m = int(sys.argv[1])
+    n = int(sys.argv[2])
+    i = int(sys.argv[3])
+    j = int(sys.argv[4])
+
+    play(m, n, i, j, 2)

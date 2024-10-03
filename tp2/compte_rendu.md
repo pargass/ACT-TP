@@ -50,3 +50,9 @@ pour la configuration (10, 7, 7, 3), le temps d'exécution est de 192 secondes t
 Cette différence s'explique par le fait que dans le second cas plein de positions sont recalculée plusieurs fois, ce qui n'est pas le cas dans le premier cas
 
 la complexité de cet algorithme est exponentielle car dans la boucle principale on appelle la fonction position_value m + n - 2 fois
+
+## Question 8
+
+Nous avons décidés de choisir un dictionnaire pour stocké les valeures déjà caculées.
+
+## Question 9
