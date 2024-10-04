@@ -114,34 +114,23 @@ def grid_representation(m, n, i, j):
 
 
 def play(m, n, i, j, joueur):
-    if joueur == 1: #changer joueur
-        joueur = 2
-    else:
-        joueur = 1
-
     if m == 1 and n == 1: #condition d'arret
         grid_representation(m, n, i, j)
         if joueur == 1:
             print("Fin du jeu, vous avez gagné ! 🎉")
         else:
             print("Fin du jeu, vous avez perdu. 😥")
-        return
-    
+        return 
 
-    grid_representation(m, n, i, j)
+    
     if joueur == 1:
         print("C'est à l'ordinateur de jouer")
-    else:
-        print("C'est à vous de jouer")
-
-    
-    if joueur == 1:
+        grid_representation(m, n, i, j)
         configurations = possible_configurations(m, n, i, j)
         choices = []
         for config in configurations:
             choices.append(acc_position_value(*config))
-
-        print("Les choix possibles sont : ", choices)
+            
         if min(choices) <= 0:
             index = choices.index(min(choices))
             for i in range(len(choices)):
@@ -149,8 +138,10 @@ def play(m, n, i, j, joueur):
                     index = i
         else:
             index = choices.index(max(choices))
-        play(*configurations[index], joueur)
+        play(*configurations[index], 2)
     else:
+        print("C'est à vous de jouer")
+        grid_representation(m, n, i, j)
         test = True
         while test:
             if not (m == 1 or n == 1):
@@ -161,22 +152,29 @@ def play(m, n, i, j, joueur):
                 direction = "v"
 
             if direction == "h":
-                n2 = int(input(f"A quelles endroit souhaitez-vous coupez (entre 1 et {n-1}): "))
-                if n2 <= j: 
-                    print("L'évaluation de votre coup est ",acc_position_value(m, n-n2, i, j-n2))
-                    play(m, n-n2, i, j-n2, joueur)
-                else:
-                    print("L'évaluation de votre coup est ",acc_position_value(m, n2, i, j))
-                    play(m, n2, i, j, joueur)
+                n2 = 0
+                while (n2 <= 0 or n2 >= n):
+                    n2 = int(input(f"A quelles endroit souhaitez-vous coupez (entre 1 et {n-1}): "))
+                    if n2 <= j and n2 > 0: 
+                        print("L'évaluation de votre coup est ",acc_position_value(m, n-n2, i, j-n2))
+                        play(m, n-n2, i, j-n2, 1)
+                    else:
+                        if not (n2 <= 0 or n2 >= n):
+                            print("L'évaluation de votre coup est ",acc_position_value(m, n2, i, j))
+                            play(m, n2, i, j, 1)
                 test = False
             if direction == "v":
-                m2 = int(input(f"A quelles endroit souhaitez-vous coupez (entre 1 et {m-1}): "))
-                if m2 <= i: 
-                    print("L'évaluation de votre coup est ",acc_position_value(m-m2, n, i-m2, j))
-                    play(m-m2, n, i-m2, j, joueur)
-                else:
-                    print("L'évaluation de votre coup est ",acc_position_value(m2, n, i, j))
-                    play(m2, n, i, j, joueur)
+                m2 = 0
+                while (m2 <= 0 or m2 >= m):
+                    m2 = int(input(f"A quelles endroit souhaitez-vous coupez (entre 1 et {m-1}): "))
+                    print(m2)
+                    if m2 <= i and m2 > 0: 
+                        print("L'évaluation de votre coup est ",acc_position_value(m-m2, n, i-m2, j))
+                        play(m-m2, n, i-m2, j, 1)
+                    else:
+                        if not (m2 <= 0 or m2 >= n):
+                            print("L'évaluation de votre coup est ",acc_position_value(m2, n, i, j))
+                            play(m2, n, i, j, 1)
                 test = False
 
 
@@ -196,32 +194,32 @@ if __name__ == "__main__":
     # print(possible_configurations(5, 5, 2,4))
     # print(position_value(3, 2, 2, 0))
 
-    @timeit
-    def test_position_value():
-        return position_value(3, 2, 2, 0)
+    # @timeit
+    # def test_position_value():
+    #     return position_value(3, 2, 2, 0)
 
-    @timeit
-    def test_d_position_value():
-        return d_position_value(6, 6, 3, 3)
+    # @timeit
+    # def test_d_position_value():
+    #     return d_position_value(6, 6, 3, 3)
 
     # @timeit
     # def test_acc_position_value():
     #     return acc_position_value(100, 100, 50, 50)
 
-    print(test_position_value())
-    print(test_d_position_value())
+    # print(test_position_value())
+    # print(test_d_position_value())
     # print(test_acc_position_value())
 
-    # if len(sys.argv) != 5:
-    #    print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
-    #    sys.exit(1)
+    if len(sys.argv) != 5:
+       print("Commande non valide, format accepté: python3 tablette.py <m:nb_colonne> <n:nb_lignes> <i:emplacement x de la case (entre 0 et m-1)> <j:emplacement y de la case (entre 0 et n-1>")
+       sys.exit(1)
 
-    # m = int(sys.argv[1])
-    # n = int(sys.argv[2])
-    # i = int(sys.argv[3])
-    # j = int(sys.argv[4])
+    m = int(sys.argv[1])
+    n = int(sys.argv[2])
+    i = int(sys.argv[3])
+    j = int(sys.argv[4])
 
-    # play(m, n, i, j, 2)
+    play(m, n, i, j, 2)
 
     # print(normalize_state(6,4,1,0))
     # print(normalize_state(6,4,1,3))
