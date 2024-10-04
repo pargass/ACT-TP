@@ -180,6 +180,18 @@ def play(m, n, i, j, joueur):
                 test = False
 
 
+def find_127():
+    positions = []
+    for i in range(127):
+        t1 = time.time()
+        for j in range(127):
+            if acc_position_value(127, 127, i, j) == 127:
+                positions.append((i, j))
+        t2 = time.time()
+        print(t2 - t1)
+    return positions
+
+
 if __name__ == "__main__":
     # print(possible_configurations(5, 5, 2,4))
     # print(position_value(3, 2, 2, 0))
@@ -211,12 +223,15 @@ if __name__ == "__main__":
 
     # play(m, n, i, j, 2)
 
-    print(normalize_state(6,4,1,0))
-    print(normalize_state(6,4,1,3))
-    print(normalize_state(6,4,4,0))
-    print(normalize_state(6,4,4,3))
+    # print(normalize_state(6,4,1,0))
+    # print(normalize_state(6,4,1,3))
+    # print(normalize_state(6,4,4,0))
+    # print(normalize_state(6,4,4,3))
 
-    print(normalize_state(4,6,0,1))
-    print(normalize_state(4,6,3,1))
-    print(normalize_state(4,6,0,4))
-    print(normalize_state(4,6,3,4))
+    # print(normalize_state(4,6,0,1))
+    # print(normalize_state(4,6,3,1))
+    # print(normalize_state(4,6,0,4))
+    # print(normalize_state(4,6,3,4))
+
+    print(find_127())
+
