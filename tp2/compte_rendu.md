@@ -2,7 +2,7 @@
 
 Gaspar Henniaux - Marwane Ouaret
 
-Lien Github : https://github.com/pargass/ACT-TP/tree/main/tp2
+Lien Github : <https://github.com/pargass/ACT-TP/tree/main/tp2>
 
 ## Question 1
 
@@ -12,20 +12,34 @@ Pour définir une grille de manière unique il faut le nombre de lignes, le nomb
 
 ![](./images/tablette.png)
 
-à justifier...
+On considère que la configuration de base est une tablette de taille 1 x 1 avec comme unique case restante le carré de la mort et a pour valeur 0.
+
+Ensuite chaques successeurs direct du cas de base prennent pour valeur 1 car il leur suffit de couper une fois pour gagner.
+
+Pour les cases n'ayant pas de lien avec le cas de base, on recupère la valeur du successeur qui mennent au chemin le plus long, on ajoute 1 si il est positif (inversement -1 si négatif), puis on multiplie par -1.
 
 ## Question 3
 
-étant donnée donnée une configuration (m, n, i, j), pour obtenir tous ses successeurs on peut appliquer les règles suivantes :
+Etant donnée donnée une configuration (m, n, i, j), pour obtenir tous ses successeurs on peut appliquer les règles suivantes :
 
-à écrire... (voir algo)
+- ∀ k tel que 0<k<i+1;  (m-k, n, i-k , j) 
+- ∀ k tel que i<k<m;    (k, n, i , j) 
+- ∀ k tel que 0<k<j+1;  (m, n-k, i , j-k) 
+- ∀ k tel que j<k<n;    (m, k, i , j) 
 
 ## Question 4
 
 Pour calculer la valeur d'une configuration à partir des valeurs de ses successeurs, on peut appliquer la formule suivante :
 
 - si parmis les successeurs il y a des valeurs négatives, alors la valeur de la position s'obtient en prenant la valeur absolue de la plus haute valeur négative et d'ajouter 1
-- sinon, la valeur de la position s'obtient en prenant l'oppoée de la plus haute valeur positive (dans l'idée de retarder la défaite au maximum)
+- sinon, la valeur de la position s'obtient en prenant l'oppoée de la plus haute valeur positive et d'enlever 1 (dans l'idée de retarder la défaite au maximum)
+
+Formule mathématique : 
+
+Soit v(P) avec pour ensemble de successeurs  S = \{ s_1, s_2, ... , s_n \}.
+
+
+![](./images/formuleQ4_latex.png)
 
 ## Question 5
 
@@ -43,7 +57,7 @@ function position_value(m, n, i, j):
 
 ## Question 6
 
-pour la configuration (10, 7, 7, 3), le temps d'exécution est de 192 secondes tandis que pour la configuration (10, 7, 5, 3) le temps d'exécution est de 414 secondes
+Pour la configuration (10, 7, 7, 3), le temps d'exécution est de 192 secondes tandis que pour la configuration (10, 7, 5, 3) le temps d'exécution est de 414 secondes
 
 ## Question 7
 
@@ -55,6 +69,14 @@ la complexité de cet algorithme est exponentielle car dans la boucle principale
 
 Nous avons décidés de choisir un dictionnaire pour stocké les valeures déjà caculées. On met en clé les configurations sous forme de tuple et en valeur la valeur de la configuration.
 
+Initalement nous avions hesité entre un dictionnaire et un array, les deux choix avait chacuns leurs avantages et inconvénients :
+
+- Le dictionnaire permet de prendre moins d'espace car nous rentrons comme clé uniquement les configurations que nous calculons. Cependant lorsque l'on fait appelle à une valeur dans le dictionnaire, cette appel ce fait en O(n).
+
+- Le tableau lui permet de récupèrer les valeurs stocker en temps constant O(1) mais ce dernier prend enormement de place car toutes les configurations existantes prennent une case dans le tableau.
+
+En prennant en compte ces contraintes, nous avons prefèré choisir une méthode de stockage qui prendra un peu plus de temps mais qui ne saturera pas la mémoire en cas de grosse valeures de configuration.
+
 ## Question 9
 
 Pour la configuration (100,100,50,50), la valeur est -198 et la confirguration (100,100,48,52), la valeur est 191.
@@ -62,6 +84,7 @@ Pour la configuration (100,100,50,50), la valeur est -198 et la confirguration (
 ## Question10
 
 Les configurations possibles pour obtenir la valeur 127 dans une tablette de taille (127, 127) sont (127,127,i,j) tel que (i,j) :
+
 - **(0,63)**
 - **(63,0)**
 - **(126, 63)**
@@ -75,7 +98,7 @@ To Do
 
 ![alt text](images/image.png)
 
-Toutes ces configurations ont la même valeur car il pour une configuration donnée, la valeur reste la même si on fait une rotation de 90°, 180° ou 270° ou si on fait un retournement horizontal ou vertical
+Toutes ces configurations ont la même valeur car il pour une configuration donnée, la valeur reste la même si on fait une rotation de 90°, 180° ou 270° ou si on fait une symétrie horizontal ou vertical
 
 ## Question 13
 
@@ -83,7 +106,7 @@ Toutes ces configurations ont la même valeur car il pour une configuration donn
 
 ## Question 15
 
-On considère que l'utilisateur rentre que des inputs valides, le code qui gère les mauvaises entrées est disponible sur : https://github.com/pargass/ACT-TP/tree/main/tp2
+On considère que l'utilisateur rentre que des inputs valides, le code qui gère les mauvaises entrées est disponible sur : <https://github.com/pargass/ACT-TP/tree/main/tp2>
 
 ```
 
@@ -149,6 +172,7 @@ function jeu (nb_colonne, nb_ligne, posX_mort, posY_mort, joueur){
 ## Question 16
 
 Nous pensons que les 2 jeux ont beaucoup de ressemblance, par exemple :
+
 - La nature des coups ressemble à une tablette de chocolat de taille (m, 1) avec uniquement des coupes de 1 à 3 autorisés.
 - dans les 2 jeu il existe des configurations perdantes et gagnantes. Donc on pourrait représentés les configurations sous forme de graphe comme la question 2.
 - Il y aura forcement un gagnant et un perdant, si le joueur ayant la configuration gagnante joue parfaitement, il ne pourra jamais perdre (et inversement)
