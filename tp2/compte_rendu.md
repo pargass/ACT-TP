@@ -77,6 +77,28 @@ Initalement nous avions hesité entre un dictionnaire et un array, les deux choi
 
 En prennant en compte ces contraintes, nous avons prefèré choisir une méthode de stockage qui prendra un peu plus de temps mais qui ne saturera pas la mémoire en cas de grosse valeures de configuration.
 
+```
+memo = {}
+
+fonction position_values_dynamique(m, n, i, j):
+    etat = (m, n, i, j)
+
+    si etat dans memo:
+        return memo[etat]
+
+    si il ne reste qu'une case alors
+        return 0
+    sinon
+        valeur_successeurs = valeur de tous les successeurs de la position (m, n, i, j)
+        si il y a des valeurs négatives dans valeur_successeurs ou 0 alors
+            res =  abs(valeur négative la plus haute) + 1
+        sinon
+            res =  -valeur positive la plus haute
+
+    on stock la valeur res de etat dans memo
+    return res
+```
+
 ## Question 9
 
 Pour la configuration (100,100,50,50), la valeur est -198 et la confirguration (100,100,48,52), la valeur est 191.
@@ -101,6 +123,43 @@ To Do
 Toutes ces configurations ont la même valeur car il pour une configuration donnée, la valeur reste la même si on fait une rotation de 90°, 180° ou 270° ou si on fait une symétrie horizontal ou vertical
 
 ## Question 13
+
+```
+acc_memo = {}
+
+fonction normaliser_etat(m, n, i, j):
+    si m < n alors
+        m, n = n, m
+        i, j = j, i
+    si i > m / 2 alors
+        i = m - i - 1
+    si j > n / 2 alors
+        j = n - j - 1
+    return (m, n, i, j)
+
+fonction acc_valeur_position(m, n, i, j):
+    etat = normaliser_etat(m, n, i, j)
+
+    si etat dans acc_memo:
+        return acc_memo[etat]
+
+    si m == 1 et n == 1 alors
+        return 0
+
+    tableau_valeurs = []
+    pour chaque position dans configurations_possibles(m, n, i, j):
+        position_normalisee = normaliser_etat(*position)
+        ajouter acc_valeur_position(*position_normalisee) à tableau_valeurs
+
+    si min(tableau_valeurs) <= 0 alors
+        valeurs_negatives = [v pour v dans tableau_valeurs si v <= 0]
+        resultat = abs(max(valeurs_negatives)) + 1
+    sinon
+        resultat = -max(tableau_valeurs) - 1
+
+    acc_memo[etat] = resultat
+    return resultat
+```
 
 ## Question 14
 
