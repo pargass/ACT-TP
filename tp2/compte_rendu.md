@@ -52,7 +52,7 @@ function position_value(m, n, i, j):
         si il y a des valeurs négatives dans valeur_successeurs ou 0 alors
             return abs(valeur négative la plus haute) + 1
         sinon
-            return -valeur positive la plus haute
+            return -valeur positive la plus haute - 1
 ```
 
 ## Question 6
@@ -89,11 +89,11 @@ fonction position_values_dynamique(m, n, i, j):
     si il ne reste qu'une case alors
         return 0
     sinon
-        valeur_successeurs = valeur de tous les successeurs de la position (m, n, i, j)
+        valeur_successeurs = valeur de tous les successeurs de la position (m, n, i, j) #appelle de la fonction position_values_dynamique m + n - 2 fois
         si il y a des valeurs négatives dans valeur_successeurs ou 0 alors
             res =  abs(valeur négative la plus haute) + 1
         sinon
-            res =  -valeur positive la plus haute
+            res =  -valeur positive la plus haute -1
 
     on stock la valeur res de etat dans memo
     return res
@@ -114,7 +114,14 @@ Les configurations possibles pour obtenir la valeur 127 dans une tablette de tai
 
 ## Question 11
 
-To Do
+La complexité de notre algorithme dynamique est en O(mn) car :
+- Pour obtenir valeur successeur on fait appelle recursivement à la fonction position_values_dynamique() m + n - 2 fois (le nombre de successeurs direct)
+- Ensuite chaques successeurs doit refaire là même chose jusqu'au cas de base donc on fait celà m*n fois
+
+A(1,1,0,0) = 0
+A(m, n, i, j) = max(A(a,b,c,d) tel que a,b,c,d repésente toutes les successeurs direct) + 1
+
+On obtient donc une complexité O((mn)*(m + n - 2)) => O((mn)*(m+n))
 
 ## Question 12
 
@@ -161,7 +168,11 @@ fonction acc_valeur_position(m, n, i, j):
     return resultat
 ```
 
+Oui le temps de résolution diminue grandement.
+
 ## Question 14
+
+En ce qui concerne la version accelerer, l'ordre de grandeur est la même chose que la version dynamique mais divisé par 8 dû à la normalisation.
 
 ## Question 15
 
