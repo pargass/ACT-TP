@@ -20,7 +20,7 @@ Pour les cases n'ayant pas de lien avec le cas de base, on recupère la valeur d
 
 ## Question 3
 
-Etant donnée donnée une configuration (m, n, i, j), pour obtenir tous ses successeurs on peut appliquer les règles suivantes :
+Etant donnée une configuration (m, n, i, j), pour obtenir tous ses successeurs on peut appliquer les règles suivantes :
 
 - ∀ k tel que 0<k<i+1;  (m-k, n, i-k , j) 
 - ∀ k tel que i<k<m;    (k, n, i , j) 

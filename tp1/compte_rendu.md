@@ -88,12 +88,12 @@ ajouter_immeuble(Li, [g,h,d] ){
     i = 0
 
     Si Li vide
-        alors ajouter (g,h)(d,0) à rep
+        alors ajouter (g,h)(d,0) à rep #cas de base on ajoute les coordonnées du sommets en haut à gauche et en bas à droite.
     
     sinon 
         Pour chaque segment (x1, y1) (x2,y2) dans Li
-            si g >= x2 ou d =< x1
-                alors si i == 0
+            si g >= x2 ou d =< x1 #si l'immeuble n'est pas confondu avec les 
+                alors si i == 0 #si c'est le premier immeuble
                     alors ajouter (x1, y1) (x2,y2) à rep
                 sinon ajouter (x2,y2) à rep
                 Si test ==  0
@@ -101,8 +101,8 @@ ajouter_immeuble(Li, [g,h,d] ){
 
             sinon
                 test = 2
-                si x1 <= g et x2 >= d
-                    si h > y1
+                si x1 <= g et x2 >= d #si l'immeuble est totalement confondu entre un autre(moins large)
+                    si h > y1 #si il depasse en hauteur
                         si i == 0
                             alors ajouter (x1, y1) (g,h) (d, y1) (x2, y2) à rep
                         sinon
@@ -113,8 +113,8 @@ ajouter_immeuble(Li, [g,h,d] ){
                         sinon 
                             œajouter (x2,y2) à rep
 
-                sinon si x1 => g et x2 <= d
-                    si h < y1
+                sinon si x1 => g et x2 <= d #si il est plus large que les segement
+                    si h < y1 #si il est moins haut
                         si i == 0 
                             ajouter (g, h) (x1, y1) (x2 , h) (d, 0) à rep
                         sinon
@@ -127,8 +127,8 @@ ajouter_immeuble(Li, [g,h,d] ){
                             retirer dernier element de rep
                             ajouter (g,h)(d,0) à rep
 
-                sinon si x1 <= g et x2 <= d
-                    si h > y1
+                sinon si x1 <= g et x2 <= d #si il commence plus loin que l'immeuble mais fini aussi plus loin
+                    si h > y1 #si il est plus haut
                         si i == 0 
                             alors ajouter (x1, y1) (g,h) (d, 0) à rep
                         sinon
@@ -139,8 +139,8 @@ ajouter_immeuble(Li, [g,h,d] ){
                         sinon
                             ajouter (x2,h) (d, 0) à rep
 
-                sinon si x1 >= g et x2 >= d
-                    si h > y1
+                sinon si x1 >= g et x2 >= d #inveressement (plus proche)
+                    si h > y1 #si il est plus haut
                         alors ajouter (g, h) (d,y1) (x2, y2) à rep
                     sinon 
                         ajouter (g,h) (x1,y1) (x2, y2) à rep
@@ -149,7 +149,7 @@ ajouter_immeuble(Li, [g,h,d] ){
     Si test = 1
         ajouter (g,h)(d,0) à rep
 
-    Supprimer les éléments tel qu'un segement (x,y1) (x, y2) alors supprimer l'élément dont le y est le plus petit (si y1 = y2 supprimer uniquement 1 des 2)    O(n)
+    Supprimer les éléments tel qu'un segement (x,y1) (x, y2) alors supprimer l'élément dont le y est le plus petit (si y1 = y2 supprimer uniquement 1 des 2)  Idem avec les y.  O(n)
                     
     return rep  
 }
@@ -180,13 +180,13 @@ fonction merge_roof_line(l1, l2)
     merged = liste vide
 
     tant que i1 est inférieur à longueur de l1 et i2 est inférieur à longueur de l2 :
-        si l1[i1][0] < l2[i2][0] :
-            d = l1[i1][0]
+        si l1[i1][0] < l2[i2][0] : #si le batiment l1 est avant celui de l2
+            d = l1[i1][0] #d = à valeur des abscisses de l1
             h1 = l1[i1][1]
             hMax = maximum entre h1 et h2
-            i1 += 1
+            i1 += 1 #passe au prochain de l1
         sinon :
-            si l1[i1][0] > l2[i2][0] :
+            si l1[i1][0] > l2[i2][0] : #si le batiment l2 est avant celui de l1
                 d = l2[i2][0]
                 h2 = l2[i2][1]
                 hMax = maximum entre h1 et h2

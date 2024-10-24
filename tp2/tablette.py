@@ -177,7 +177,6 @@ def play(m, n, i, j, joueur):
                             play(m2, n, i, j, 1)
                 test = False
 
-
 def find_127():
     positions = []
     for i in range(127):
@@ -219,7 +218,7 @@ if __name__ == "__main__":
     i = int(sys.argv[3])
     j = int(sys.argv[4])
 
-    # play(m, n, i, j, 2)
+    play(m, n, i, j, 2)
 
     # print(normalize_state(6,4,1,0))
     # print(normalize_state(6,4,1,3))
@@ -231,5 +230,5 @@ if __name__ == "__main__":
     # print(normalize_state(4,6,0,4))
     # print(normalize_state(4,6,3,4))
 
-    tuple = (1,2,3)
+    #print(find_127())
 
