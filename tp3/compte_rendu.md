@@ -2,7 +2,7 @@
 
 Gaspar Henniaux - Marwane Ouaret
 
-## Qu’est-ce qu’une propriété NP ?
+## 1. Qu’est-ce qu’une propriété NP ?
 
 ### Question 1
 
@@ -69,4 +69,14 @@ Pour n et k fixés, le nombre de certificats possibles est k^n. En effet, pour c
 3.2.
 
 pour ordonner les certificats, on peut les trier par ordre lexicographique.
+
+3.3.
+
+Pour tester si le problème a une solution ou non, on peut tester tous les certificats possibles. Si un certificat est valide, alors le problème a une solution.
+
+La complexité de cet algorithme est en O(k^n * (n + k)). En effet, on teste tous les certificats possibles, et pour chaque certificat, on vérifie s'il est valide en O(n + k).
+
+### Question 4
+
+```
 
