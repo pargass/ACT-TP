@@ -78,5 +78,31 @@ La complexité de cet algorithme est en O(k^n * (n + k)). En effet, on teste tou
 
 ### Question 4
 
+voir algo
+
+## 2. Réduction polynomiale
+
+### Question 1
+
+1.
+
+ecrire feuille
+
+1.1.
+
 ```
+function reduction (nb_objet, liste_objet)
+    capacite_sac = somme de liste_objet divisé par 2
+    nombre_sac = 2
+    return nb_objet, liste_objet, capacite_sac, nombre_sac
+```
+1.2.
+
+On a déjà prouvé que binPack est un problème NP en montrant qu'il existe un algorithme polynomial pour vérifier si un certificat est valide. On a aussi montré que que partition se réduit polynomialement à binPack en montrant qu'on peut transformer une instance de partition en une instance de binPack en temps polynomial. Etant donné que partition est NP-complet, il est également NP-dur, c'est à dire que tout problème NP se réduit polynomialement à partition. Par transitivité, tout problème NP se réduit polynomialement à binPack. binPack est donc NP-dur et NP. Il est donc NP-complet.
+
+1.3
+
+Nous ne pensons pas que BinPack se réduise polynomialement dans Partition  car toutes instances de BinPack ne permettent pas d'avoir une instance de partition du au nombre de sac fixé à 2 et la capaité du sac fixé aussi. Uniquement certains cas de Binpack permet une instance de Partition.
+
+### Question 2
 

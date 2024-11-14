@@ -130,22 +130,98 @@ def read_data(file):
 
     return n, x, c, k
 
+def reduction_partition_binpack(n, l):
+    """
+    Reduce the pnartition problem to the bin packing problem
+
+    Parameters
+    ----------
+    n : int
+        The number of items
+    l : list
+        The list of integers
+    ----------
+    Returns
+    -------
+    n : int
+        The number of items
+    weight : list
+        The weight of each item
+    c : int
+        The capacity of each bin
+    k : int
+        The number of bins
+    -------
+    """
+    weight = np.array(l)
+    c = sum(l) // 2
+    k = 2
+    return n, weight, c, k
+
+def reduction_sum_partition(n, l, c):
+    """
+    Reduce the sum problem to the partition problem
+
+    Parameters
+    ----------
+    n : int
+        The number of items
+    l : list
+        The list of integers
+    c : int
+        The sum to reach
+    ----------
+    Returns
+    -------
+    n : int
+        The number of items
+    l : list
+        The list of integers
+    -------
+    """
+    l.append(c)
+    return n+1, l
+
+
+
 
 if __name__ == "__main__":
-    file = "./data.txt"
-    n, x, c, k = read_data(file)
-    choix = -1
-    while(choix < 0 or choix > 2):
-        choix = int(input(f"Choisissez un mode : verification (0), non-déterministe(1), exploration exhaustive (2) : "))
+    # file = "./data.txt"
+    # n, x, c, k = read_data(file)
+    # choix = -1
+    # while(choix < 0 or choix > 2):
+    #     choix = int(input(f"Choisissez un mode : verification (0), non-déterministe(1), exploration exhaustive (2) : "))
 
-    if choix == 0:
-        certificate = np.zeros(n)
-        for i in range(n):
-            certificate[i] = int(input(f"A-quel sac appartient l'objet {i} dont le poids fait {x[i]} ? (Choisir entre 0 et {k-1}) "))
-        print(check_certificate(certificate, n, x, c, k))
-    else :
-        if choix == 1:
-            print(non_deterministic(n,x,c,k))
-        else:
-            if choix == 2:
-                print(exhaustive(n,x,c,k))
+    # if choix == 0:
+    #     certificate = np.zeros(n)
+    #     for i in range(n):
+    #         certificate[i] = int(input(f"A-quel sac appartient l'objet {i} dont le poids fait {x[i]} ? (Choisir entre 0 et {k-1}) "))
+    #     print(check_certificate(certificate, n, x, c, k))
+    # else :
+    #     if choix == 1:
+    #         print(non_deterministic(n,x,c,k))
+    #     else:
+    #         if choix == 2:
+    #             print(exhaustive(n,x,c,k))
+
+    # n = 5
+    # l = [3, 2, 4, 3, 3]
+
+    # n, weight, c, k = reduction_partition_binpack(n, l)
+
+    # print(n, weight, c, k)
+    # print(exhaustive(n,weight,c,k))
+
+    n = 3
+    l = [1, 4, 5]
+    c = 2
+
+    n, l = reduction_sum_partition(n, l, c)
+
+    print(n, l)
+
+    n, weight, c, k = reduction_partition_binpack(n, l)
+
+    print(n, weight, c, k)
+
+    print(exhaustive(n,weight,c,k))
