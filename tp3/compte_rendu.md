@@ -154,4 +154,35 @@ Cette transformation permet d'ajouter des objets au sac n'ayant pas pour capacit
 
 ## 3. Optimisation versus Décision
 
-1. Supposons que BinPackOpt1
+1. Supposons que BinPackOpt1 soit de P alors il existerait un algorithme polynomiale Aopt1 qui résoudrait le problème de BinPackOpt1. 
+On pourrait à partir de cette algorithme implémenté BinPack de cette façon :
+```
+BinPack(n , xi, c, k):
+    kmin = Aopt1(n, xi, c)
+    if kmin > k:
+        return false
+    else:
+        return true
+```
+Donc BinPack serait de classe P, car l'algorithme serait polynomiale.
+
+
+Supposons que BinPackOpt2 soit de P alors il existerait un algorithme polynomiale Aopt2 qui résoudrait le problème de BinPackOpt2. 
+On pourrait à partir de cette algorithme implémenté BinPack de cette façon :
+```
+BinPack(n , xi, c, k):
+    sac = Aopt2(n, xi, c, k) #liste d'objet correspondant à chaque sac
+    if sac.lenght > k:
+        return false
+    else:
+        return true
+```
+Donc BinPack serait de classe P, car l'algorithme serait polynomiale.
+
+Or BinPack est Np-complet et donc NP ce qui implique que P = NP
+
+BinPack étant le problème de décision de BinPackOpt1 et 2. Leur complexité serait au moins plus dûr que BinPack.
+
+2.
+
+
