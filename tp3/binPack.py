@@ -179,10 +179,8 @@ def reduction_sum_partition(n, l, c):
         The list of integers
     -------
     """
-    l.append(c)
+    l = np.append(l,l.sum()-2*c)
     return n+1, l
-
-
 
 
 if __name__ == "__main__":
@@ -212,16 +210,16 @@ if __name__ == "__main__":
     # print(n, weight, c, k)
     # print(exhaustive(n,weight,c,k))
 
-    n = 3
-    l = [1, 4, 5]
-    c = 2
+    n, l, c = 3, np.array([1, 4, 6]), 9
+
+    print("instance de sum : \nn = ", n, "\nl = ", l, "\nc = ", c, sep="", end="\n\n")
 
     n, l = reduction_sum_partition(n, l, c)
 
-    print(n, l)
+    print("instance de partition : \nn = ", n, "\nl = ", l, sep="", end="\n\n")
 
     n, weight, c, k = reduction_partition_binpack(n, l)
 
-    print(n, weight, c, k)
+    print("instance de binpack : \nn = ", n, "\nweight = ", weight, "\nc = ", c, "\nk = ", k, sep="", end="\n\n")
 
     print(exhaustive(n,weight,c,k))

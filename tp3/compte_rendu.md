@@ -4,7 +4,36 @@ Gaspar Henniaux - Marwane Ouaret
 
 ## 1. Qu’est-ce qu’une propriété NP ?
 
-### Question 1
+### Question 1def sum_to_partition(n ,c ,l):
+    """
+    Reduce the sum problem to the partition problem
+
+    Parameters
+    ----------
+    n : int
+        The number of items
+    l : list
+        The list of integers
+    c : int
+        The sum to reach
+    ----------
+    Returns
+    -------
+    n : int
+        The number of items
+    l : list
+        The list of integers
+    -------
+    """
+    somme = sum(l)
+
+    if somme < c:
+        raise ValueError("La cible est trop élevée pour être atteinte avec cet ensemble.")
+
+    rep = l + [somme - 2 * c]
+
+    return rep, n+1
+
 
 Ici, un certificat est une association pour chaque objet à un sac.
 
@@ -106,3 +135,20 @@ Nous ne pensons pas que BinPack se réduise polynomialement dans Partition  car 
 
 ### Question 2
 
+à expliquer
+
+### Question 3
+
+voir algo et expliquer
+
+### Question 4
+
+on emboite les réduction, voir test algo et expliquer
+
+### Question 5
+
+on doit ajouter des objets de la maniere suivante :
+
+on selectionne le sac de capacité max et on construit un tableau en soustrayant la capacité max avec la capacité de tous les autres sac et on ajoute cette liste d'objets aux autres. 
+
+ensuite on definit la capacité max comme capacité max de la liste de l'instance de base et le nombre de sac ne change pas
