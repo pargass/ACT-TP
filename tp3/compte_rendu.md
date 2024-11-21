@@ -184,7 +184,7 @@ a) Toutes instances de Partition (I) se réduit en une instance de BinPack (red(
 BinPack    Partiton
 n           <- n
 Xi          <- Xi
-c = sum(Xi) / 2
+c           <- sum(Xi) / 2
 k = 2
 ```
 
