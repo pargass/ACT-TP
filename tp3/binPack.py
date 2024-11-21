@@ -179,7 +179,7 @@ def reduction_sum_partition(n, l, c):
         The list of integers
     -------
     """
-    l = np.append(l,l.sum()-2*c)
+    l = np.append(l,2*c - l.sum())
     return n+1, l
 
 
@@ -210,7 +210,7 @@ if __name__ == "__main__":
     # print(n, weight, c, k)
     # print(exhaustive(n,weight,c,k))
 
-    n, l, c = 3, np.array([1, 4, 6]), 9
+    n, l, c = 3, np.array([1, 4, 5]), 9
 
     print("instance de sum : \nn = ", n, "\nl = ", l, "\nc = ", c, sep="", end="\n\n")
 
