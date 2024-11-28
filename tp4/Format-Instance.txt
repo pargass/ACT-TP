@@ -1,0 +1,3 @@
+Chaque fichier d'instances contient les n+1 lignes suivantes :
+- la première ligne indique le nombre de tâches n
+- Chacune des n lignes suivantes (i : {1..n}) contient trois valeurs correspondant respectivement à pi (le temps d'execution), wi (le poids) et di (la date limite), de la tâche i.
