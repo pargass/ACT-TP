@@ -41,7 +41,7 @@ int late(Task* tasks, int* order, int task_count) {
 }
 
 void random_solution(int* order, int task_count) {
-    for (int i = 0; i < task_count; i++) {
+    for (int i = 0; i < task_count; i++) {:m
         order[i] = i;
     }
     for (int i = 0; i < task_count; i++) {
