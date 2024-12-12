@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 def read_file(fichier):
     with open(fichier, 'r') as f:
@@ -12,6 +13,7 @@ def read_file(fichier):
 
     return task
 
+
 def late(task, ordonnance):
     time = 0
     Cj = 0
@@ -19,7 +21,7 @@ def late(task, ordonnance):
     for el in ordonnance:
         Cj += task[el][0]
         Tj = max(Cj - task[el][2], 0)
-        sum += task[el][2] * Tj
+        sum += task[el][1] * Tj
     return sum
 
 def random_solution(task):
@@ -28,7 +30,7 @@ def random_solution(task):
     return late(task, ordo)
 
 #Voisinage
-def generate_neighbor1(ordonnance):
+def generate_neighbor_inv(ordonnance):
     neighbors = []
     n = len(ordonnance)
     for i in range(n-1):
@@ -37,7 +39,7 @@ def generate_neighbor1(ordonnance):
         neighbors.append(neighbor)
     return neighbors
 
-def generate_neighbor2(ordonnance):
+def generate_neighbor_swap(ordonnance):
     neighbors = []
     n = len(ordonnance)
     for i in range(n):
@@ -47,16 +49,28 @@ def generate_neighbor2(ordonnance):
             neighbors.append(neighbor)
     return neighbors
 
+def generate_neighbor_insert(ordonnance):
+    neighbors = []
+    n = len(ordonnance)
+    for i in range(n):
+        for j in range(n):
+            if i != j:
+                neighbor = ordonnance.copy()
+                neighbor.insert(j, neighbor.pop(i))
+                neighbors.append(neighbor)
+    return neighbors
+
+
 def hill_climb(task,voisinage,ordo):
     best_ordo = ordo
     best_late = late(task, ordo)
     amelio = True
-    while amelio:
+    while amelio: # tant que l'ordonnancement s'améliore
         amelio = False
-        neighbors = voisinage(ordo)
-        for neighbor in neighbors:
-            late_neighbor = late(task, neighbor)
-            if late_neighbor < best_late:
+        neighbors = voisinage(ordo) # on crée les voisins
+        for neighbor in neighbors: # on parcourt les voisins
+            late_neighbor = late(task, neighbor) # on calcule le retard de l'ordo
+            if late_neighbor < best_late: # si le retard est meilleur
                 best_late = late_neighbor
                 best_ordo = neighbor
                 amelio = True
@@ -66,7 +80,7 @@ def hill_climb(task,voisinage,ordo):
 def vnd(task , ordo):
     best_ordo = ordo
     best_late = late(task, ordo)
-    voisinages = [generate_neighbor2, generate_neighbor1]
+    voisinages = [generate_neighbor_inv, generate_neighbor_swap, generate_neighbor_insert]
     k = 0
     while k <= len(voisinages)-1:
         ordo_n, late_n = hill_climb(task, voisinages[k] ,best_ordo)
@@ -112,15 +126,36 @@ def heuristic_time_by_weight_coef_limit(task):
 
 if __name__ == "__main__":
     task1 = read_file("./SMTWP/n100_15_b.txt")
-    print(task1)
-    heuristic_time_by_weight_coef_limit(task1)
-    random = ("Random", random_solution(task1))
-    time = ("Time", late(task1, heuristic_time(task1)))
-    weight = ("Weight", late(task1, heuristic_weight(task1)))
-    limit = ("Limit", late(task1, heuristic_limit(task1)))
-    timeweight = ("TimeWeight", late(task1, heuristic_timeweight(task1)))
-    time_weight_limit = ("TimeWeightLimit", late(task1, heuristic_time_by_weight_coef_limit(task1)))
+    # print(task1)
+    # heuristic_time_by_weight_coef_limit(task1)
+    # random = ("Random", random_solution(task1))
+    # time = ("Time", late(task1, heuristic_time(task1)))
+    # weight = ("Weight", late(task1, heuristic_weight(task1)))
+    # limit = ("Limit", late(task1, heuristic_limit(task1)))
+    # timeweight = ("TimeWeight", late(task1, heuristic_timeweight(task1)))
+    # time_weight_limit = ("TimeWeightLimit", late(task1, heuristic_time_by_weight_coef_limit(task1)))
 
-    liste = [random, time, weight, limit, timeweight, time_weight_limit]
-    for i in sorted(liste, key=lambda i: i[1]):
-        print(i[0],":", i[1])
+    # liste = [random, time, weight, limit, timeweight, time_weight_limit]
+    # for i in sorted(liste, key=lambda i: i[1]):
+    #     print(i[0],":", i[1])
+
+    # print(generate_neighbor_inv([1,2,3,4,5]))
+    # print(generate_neighbor_swap([1,2,3,4,5]))
+    # print(generate_neighbor_insert([1,2,3,4,5]))
+
+    # time1 = time.time()
+    # print(hill_climb(task1, generate_neighbor_inv, heuristic_time(task1))[1]- 172995)
+    # time2 = time.time()
+    # print(time2-time1)
+    # time1 = time.time()
+    # print(hill_climb(task1, generate_neighbor_swap, heuristic_time(task1))[1]- 172995)
+    # time2 = time.time()
+    # print(time2-time1)
+    # time1 = time.time()
+    # print(hill_climb(task1, generate_neighbor_insert, heuristic_time(task1))[1]- 172995)
+    # time2 = time.time()
+    # print(time2-time1)
+    # time1 = time.time()
+    print(vnd(task1, heuristic_time(task1)))
+    # time2 = time.time()
+    # print(time2-time1)
