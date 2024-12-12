@@ -92,6 +92,46 @@ def vnd(task , ordo):
             k += 1
     return best_ordo, best_late
 
+#Perturbation
+def perturbation(solution):
+    n = len(solution)
+    quarter_size = n // 4
+    quarters = [
+        solution[:quarter_size],
+        solution[quarter_size:2 * quarter_size],
+        solution[2 * quarter_size:3 * quarter_size],
+        solution[3 * quarter_size:]
+    ]
+    i = random.randint(0, 2)
+    quarters[i], quarters[i+1] = quarters[i+1], quarters[i]
+    perturbed_solution = []
+    for quarter in quarters:
+        perturbed_solution.extend(quarter)
+    
+    return perturbed_solution
+
+def ils(task, ordo, max_iter=10):
+    best_solution = ordo
+    best_late = late(task, best_solution)
+    
+    current_solution = best_solution
+    current_late = best_late
+    
+    for iteration in range(max_iter):
+        current_solution, current_late = vnd(task, current_solution)
+        if current_late < best_late:
+            best_solution = current_solution
+            best_late = current_late
+        
+        p_solution = perturbation(current_solution)
+        p_late = late(task, p_solution)
+        if(late(task, p_solution) < p_late):
+            current_solution = p_solution
+            current_late = p_late
+    
+    return best_solution, best_late
+
+
 #Glouton    
 #Heuristic les tache les plus courtes d'abord
 def heuristic_time(task):
@@ -113,6 +153,10 @@ def heuristic_timeweight(task):
     ordo = sorted(range(len(task)), key=lambda i: task[i][0]*task[i][1])
     return ordo
 
+def heuristic_timeweightdelay(task):
+    ordo = sorted(range(len(task)), key=lambda i: task[i][1]/(task[i][2]*task[i][0]), reverse=True)
+    return ordo
+
 def heuristic_time_by_weight_coef_limit(task):
     ordo_1 = sorted(range(len(task)), key=lambda i: task[i][0]*task[i][1]) # car taches les plus couteuses d'abord
     ordo_2 = sorted(range(len(task)), key=lambda i: task[i][2]) # car taches avec limites les plus courtes d'abord
@@ -125,7 +169,8 @@ def heuristic_time_by_weight_coef_limit(task):
     return ordo
 
 if __name__ == "__main__":
-    task1 = read_file("./SMTWP/n100_15_b.txt")
+    task = np.zeros(20, dtype=object)
+    task[0] = read_file("./SMTWP/n100_15_b.txt")
     # print(task1)
     # heuristic_time_by_weight_coef_limit(task1)
     # random = ("Random", random_solution(task1))
@@ -156,6 +201,31 @@ if __name__ == "__main__":
     # time2 = time.time()
     # print(time2-time1)
     # time1 = time.time()
-    print(vnd(task1, heuristic_time(task1)))
+    print(vnd(task[0], heuristic_timeweightdelay(task[0])))
     # time2 = time.time()
     # print(time2-time1)
+
+    task[1] = read_file("./SMTWP/n100_16_b.txt")
+    task[2]  = read_file("./SMTWP/n100_17_b.txt")
+    task[3]  = read_file("./SMTWP/n100_18_b.txt")
+    task[4]  = read_file("./SMTWP/n100_19_b.txt")
+    task[5]  = read_file("./SMTWP/n100_35_b.txt")
+    task[6]  = read_file("./SMTWP/n100_36_b.txt")
+    task[7]  = read_file("./SMTWP/n100_37_b.txt")
+    task[8]  = read_file("./SMTWP/n100_38_b.txt")
+    task[9]  = read_file("./SMTWP/n100_39_b.txt")
+    task[10]  = read_file("./SMTWP/n100_40_b.txt")
+    task[11]  = read_file("./SMTWP/n100_41_b.txt")
+    task[12]  = read_file("./SMTWP/n100_42_b.txt")
+    task[13]  = read_file("./SMTWP/n100_43_b.txt")
+    task[14]  = read_file("./SMTWP/n100_44_b.txt")
+    task[15]  = read_file("./SMTWP/n100_85_b.txt")
+    task[16]  = read_file("./SMTWP/n100_86_b.txt")
+    task[17]  = read_file("./SMTWP/n100_87_b.txt")
+    task[18]  = read_file("./SMTWP/n100_88_b.txt")
+    task[19]  = read_file("./SMTWP/n100_89_b.txt")
+
+    
+    for i in range(len(task)):
+        print("Ils ",i," : ", ils(task[i] , heuristic_timeweightdelay(task[i])))
+
