@@ -27,19 +27,73 @@ def random_solution(task):
     ordo = np.random.permutation(ordo)
     return late(task, ordo)
 
-#Glouton
+#Voisinage
+def generate_neighbor1(ordonnance):
+    neighbors = []
+    n = len(ordonnance)
+    for i in range(n-1):
+        neighbor = ordonnance.copy()
+        neighbor[i], neighbor[i+1] = neighbor[i+1], neighbor[i]
+        neighbors.append(neighbor)
+    return neighbors
+
+def generate_neighbor2(ordonnance):
+    neighbors = []
+    n = len(ordonnance)
+    for i in range(n):
+        for j in range(i + 1, n):
+            neighbor = ordonnance.copy()
+            neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
+            neighbors.append(neighbor)
+    return neighbors
+
+def hill_climb(task,voisinage,ordo):
+    best_ordo = ordo
+    best_late = late(task, ordo)
+    amelio = True
+    while amelio:
+        amelio = False
+        neighbors = voisinage(ordo)
+        for neighbor in neighbors:
+            late_neighbor = late(task, neighbor)
+            if late_neighbor < best_late:
+                best_late = late_neighbor
+                best_ordo = neighbor
+                amelio = True
+        ordo = best_ordo
+    return best_ordo, best_late
+
+def vnd(task , ordo):
+    best_ordo = ordo
+    best_late = late(task, ordo)
+    voisinages = [generate_neighbor2, generate_neighbor1]
+    k = 0
+    while k <= len(voisinages)-1:
+        ordo_n, late_n = hill_climb(task, voisinages[k] ,best_ordo)
+        if  late_n < best_late:
+            best_ordo = ordo_n
+            best_late = late_n
+            k = 0
+        else:
+            k += 1
+    return best_ordo, best_late
+
+#Glouton    
 #Heuristic les tache les plus courtes d'abord
 def heuristic_time(task):
     ordo = sorted(range(len(task)), key=lambda i: task[i][0])
     return ordo
+
 #Heuristic les poids les plus lourd d'abord
 def heuristic_weight(task):
     ordo = sorted(range(len(task)), key=lambda i: task[i][1])
     return ordo
+
 #Heuristic les limit les plus courtes d'abord
 def heuristic_limit(task):
     ordo = sorted(range(len(task)), key=lambda i: task[i][2])
     return ordo
+
 #Heuristic les poids les plus lourd d'abord
 def heuristic_timeweight(task):
     ordo = sorted(range(len(task)), key=lambda i: task[i][0]*task[i][1])
