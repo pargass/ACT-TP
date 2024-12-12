@@ -1,5 +1,6 @@
 import numpy as np
 import time
+import random
 
 def read_file(fichier):
     with open(fichier, 'r') as f:
