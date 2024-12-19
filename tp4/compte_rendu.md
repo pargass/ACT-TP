@@ -2,7 +2,7 @@
 
 Gaspar Henniaux – Marwane Ouaret
 
-github : (https ://github.com/pargass/ACT-TP/tree/main/tp4)
+github : (https://github.com/pargass/ACT-TP/tree/main/tp4)
 ## Travail préliminaire
 
 # Question 1.0
