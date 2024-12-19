@@ -41,7 +41,7 @@ int late(Task* tasks, int* order, int task_count) {
 }
 
 void random_solution(int* order, int task_count) {
-    for (int i = 0; i < task_count; i++) {:m
+    for (int i = 0; i < task_count; i++) {
         order[i] = i;
     }
     for (int i = 0; i < task_count; i++) {
@@ -128,19 +128,43 @@ void ils(Task* tasks, int task_count, int* initial_order, int* best_order, int* 
 int main() {
     srand(time(NULL));
 
-    int task_count;
-    Task* tasks = read_file("./SMTWP/n100_15_b.txt", &task_count);
+    const char* files[] = {
+        "./SMTWP/n100_16_b.txt",
+        "./SMTWP/n100_17_b.txt",
+        "./SMTWP/n100_18_b.txt",
+        "./SMTWP/n100_19_b.txt",
+        "./SMTWP/n100_35_b.txt",
+        "./SMTWP/n100_36_b.txt",
+        "./SMTWP/n100_37_b.txt",
+        "./SMTWP/n100_38_b.txt",
+        "./SMTWP/n100_39_b.txt",
+        "./SMTWP/n100_40_b.txt",
+        "./SMTWP/n100_41_b.txt",
+        "./SMTWP/n100_42_b.txt",
+        "./SMTWP/n100_43_b.txt",
+        "./SMTWP/n100_44_b.txt",
+        "./SMTWP/n100_85_b.txt",
+        "./SMTWP/n100_86_b.txt",
+        "./SMTWP/n100_87_b.txt",
+        "./SMTWP/n100_88_b.txt",
+        "./SMTWP/n100_89_b.txt"
+    };
 
-    int initial_order[MAX_TASKS];
-    random_solution(initial_order, task_count);
+    for (int i = 0; i < 19; i++) {
+        int task_count;
+        Task* tasks = read_file(files[i], &task_count);
 
-    int best_order[MAX_TASKS];
-    int best_late;
+        int initial_order[MAX_TASKS];
+        random_solution(initial_order, task_count);
 
-    ils(tasks, task_count, initial_order, best_order, &best_late);
+        int best_order[MAX_TASKS];
+        int best_late;
 
-    printf("Best lateness: %d\n", best_late);
-    free(tasks);
+        ils(tasks, task_count, initial_order, best_order, &best_late);
+
+        printf("ILS %d: Best lateness = %d\n", i + 1, best_late);
+        free(tasks);
+    }
 
     return 0;
 }

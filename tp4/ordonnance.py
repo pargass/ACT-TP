@@ -78,7 +78,7 @@ def hill_climb(task,voisinage,ordo):
         ordo = best_ordo
     return best_ordo, best_late
 
-def vnd(task , ordo):
+def vnd(task, ordo, voisinages=[generate_neighbor_inv, generate_neighbor_swap, generate_neighbor_insert]):
     best_ordo = ordo
     best_late = late(task, ordo)
     voisinages = [generate_neighbor_inv, generate_neighbor_swap, generate_neighbor_insert]
@@ -93,47 +93,53 @@ def vnd(task , ordo):
             k += 1
     return best_ordo, best_late
 
-#Perturbation
-def perturbation(solution):
+# Perturbation
+def perturbation(solution, size):
     n = len(solution)
-    quarter_size = n // 4
-    quarters = [
-        solution[:quarter_size],
-        solution[quarter_size:2 * quarter_size],
-        solution[2 * quarter_size:3 * quarter_size],
-        solution[3 * quarter_size:]
-    ]
-    i = random.randint(0, 2)
-    quarters[i], quarters[i+1] = quarters[i+1], quarters[i]
+
+    if size <= 0 or size > n:
+        raise ValueError("Size must be between 1 and the length of the solution")
+
+    slice_size = n // size
+    slices = [solution[i * slice_size:(i + 1) * slice_size] for i in range(size)]
+
+    leftover = n % size
+    if leftover:
+        slices[-1].extend(solution[-leftover:])
+
+    i = random.randint(0, size - 2)
+    slices[i], slices[i + 1] = slices[i + 1], slices[i]
+
     perturbed_solution = []
-    for quarter in quarters:
-        perturbed_solution.extend(quarter)
-    
+    for slice in slices:
+        perturbed_solution.extend(slice)
+
     return perturbed_solution
 
-def ils(task, ordo, max_iter=10):
+
+
+def ils(task, ordo, max_iter=10, perturbation_size=4, reset=False):
     best_solution = ordo
     best_late = late(task, best_solution)
-    
-    current_solution = best_solution
-    current_late = best_late
-    
+
+    current_solution, current_late = vnd(task, best_solution)
+
     for iteration in range(max_iter):
-        current_solution, current_late = vnd(task, current_solution)
-        if current_late < best_late:
-            best_solution = current_solution
-            best_late = current_late
-        
-        p_solution = perturbation(current_solution)
-        p_late = late(task, p_solution)
-        if(late(task, p_solution) < p_late):
-            current_solution = p_solution
-            current_late = p_late
-    
+        p_solution = perturbation(current_solution, perturbation_size)
+ 
+        tmp_solution, tmp_late = vnd(task, p_solution)
+
+        if tmp_late < best_late:
+            best_solution = tmp_solution
+            best_late = tmp_late
+            current_solution = tmp_solution
+            if reset:
+                iteration = 0
+
     return best_solution, best_late
 
 
-#Glouton    
+#Glouton
 #Heuristic les tache les plus courtes d'abord
 def heuristic_time(task):
     ordo = sorted(range(len(task)), key=lambda i: task[i][0])
@@ -172,39 +178,6 @@ def heuristic_time_by_weight_coef_limit(task):
 if __name__ == "__main__":
     task = np.zeros(20, dtype=object)
     task[0] = read_file("./SMTWP/n100_15_b.txt")
-    # print(task1)
-    # heuristic_time_by_weight_coef_limit(task1)
-    # random = ("Random", random_solution(task1))
-    # time = ("Time", late(task1, heuristic_time(task1)))
-    # weight = ("Weight", late(task1, heuristic_weight(task1)))
-    # limit = ("Limit", late(task1, heuristic_limit(task1)))
-    # timeweight = ("TimeWeight", late(task1, heuristic_timeweight(task1)))
-    # time_weight_limit = ("TimeWeightLimit", late(task1, heuristic_time_by_weight_coef_limit(task1)))
-
-    # liste = [random, time, weight, limit, timeweight, time_weight_limit]
-    # for i in sorted(liste, key=lambda i: i[1]):
-    #     print(i[0],":", i[1])
-
-    # print(generate_neighbor_inv([1,2,3,4,5]))
-    # print(generate_neighbor_swap([1,2,3,4,5]))
-    # print(generate_neighbor_insert([1,2,3,4,5]))
-
-    # time1 = time.time()
-    # print(hill_climb(task1, generate_neighbor_inv, heuristic_time(task1))[1]- 172995)
-    # time2 = time.time()
-    # print(time2-time1)
-    # time1 = time.time()
-    # print(hill_climb(task1, generate_neighbor_swap, heuristic_time(task1))[1]- 172995)
-    # time2 = time.time()
-    # print(time2-time1)
-    # time1 = time.time()
-    # print(hill_climb(task1, generate_neighbor_insert, heuristic_time(task1))[1]- 172995)
-    # time2 = time.time()
-    # print(time2-time1)
-    # time1 = time.time()
-    print(vnd(task[0], heuristic_timeweightdelay(task[0])))
-    # time2 = time.time()
-    # print(time2-time1)
 
     task[1] = read_file("./SMTWP/n100_16_b.txt")
     task[2]  = read_file("./SMTWP/n100_17_b.txt")
@@ -226,7 +199,6 @@ if __name__ == "__main__":
     task[18]  = read_file("./SMTWP/n100_88_b.txt")
     task[19]  = read_file("./SMTWP/n100_89_b.txt")
 
-    
     for i in range(len(task)):
-        print("Ils ",i," : ", ils(task[i] , heuristic_timeweightdelay(task[i])))
+        print("Ils ",i," : ", ils(task[i] , heuristic_timeweightdelay(task[i]), 10, 8))
 
