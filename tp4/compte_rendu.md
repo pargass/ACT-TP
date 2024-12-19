@@ -197,4 +197,12 @@ Sur les 20 tests effectués, lorsque k = 8, nous avons trouvé 6 optimaux. Tandi
 
 # Question 1.7
 
+!["Graphiqueratio"](results_ratio.png)
+
+!["graphiquediff](results_diff.png)
+
+En observant le graphique des ratios, on voit que les heuristiques ont du mal à se rapprocher de l'optimal. La performance d'hilclimbing dépend du voisinaege utilisé, insert est le plus performant et se rapproche vraiment de l'optimal. Les autres voisinaege sont moins performants. vnd est plus performant que hillclimbing mais reste moins performant que ILS. ILS est le plus performant et se rapproche le plus de l'optimal, VND et ILS ont des ratios à 1.
+
+En se penchant sur le graphique des différences, on peut voir plus précisement les performances des algorithmes. On peut notamment voir que bien que les différentes versions d'ILS soient très proches, la version avec k = 8 a une somme de latence moins élevée que les autres. Il faut donc un compromis entre la performance globale et les optimaux trouvés.
+
 
